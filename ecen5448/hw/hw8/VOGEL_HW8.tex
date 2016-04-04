@@ -1,0 +1,57 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+
+
+\title{Homework 8: Advanced Linear Systems (ECEN 5448)}
+\author{Zachary Vogel}
+\date{\today}
+
+\newcommand{\rank}{\text{rank}}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+Given the A matrix:
+\[A=\begin{pmatrix}1&2\\-5&0\end{pmatrix}\]
+find all vectors $b=\begin{pmatrix}b_1&b_2\end{pmatrix}^T$ such that $\dot{x}=Ax+bu$ is controllable (the pair $(A,b)$ is controllable).\\
+The controllability rank test shown in class state that if:
+\[\begin{pmatrix}b &Ab\end{pmatrix}=\begin{pmatrix}b_1&b_1+2b_2\\b_2&-5b_1\end{pmatrix}\]
+is full rank then the system is controllable. Saying the square  matrix is full rank is equivalent to saying it's determinant is non-zero. Thus:
+\[-5b_1^2-b_1b_2-2b_2^2\neq 0\]
+To find the $b$ matrices that work for this system, we need to find the $b_1,b_2$ that make this system fail. Thus, we solve:
+\[b_1^2+\frac{1}{5}b_1b_2+\frac{2}{5}b_2^2=0\]
+That means our solution will come in the form of two intersecting lines that meet at the point $b_1=b_2=0$.\\
+\[b_1=\cfrac{\frac{-1}{5}b_2\pm\sqrt{\frac{1}{25}b_2^2-\frac{40}{25}b_2^2}}{2}=-\frac{1}{10}(b_2\pm j\sqrt{39}b_2)\]
+Any $b_1$, $b_2$ that do not fall on these two imaginary lines will give a controllable system. $b_1$ and $b_2$ that exist on these lines will give uncontrollable systems.\\
+
+\section*{Problem 2}
+Consider the system $\dot{x}=Ax+bu$ with:
+\[A=\begin{pmatrix}1&1&0\\1&1&1\\0&1&1\end{pmatrix},\ b=\begin{pmatrix}0\\1\\0\end{pmatrix}\]
+Show that $(A,b)$ is uncontrollable. Find an initial condition $x(0)\in\mathbb{R}^3$ such that there doesn't exist a control input that drives the system to the origin.\\
+Again, we want to show that:
+\[\begin{pmatrix}b &Ab&A^2b\end{pmatrix}\]
+is full rank. First, let's get $A^2$
+\[A^2=\begin{pmatrix}2&2&1\\2&3&2\\1&2&2\end{pmatrix}\]
+Thus, the matrix we want is:
+\[S=\begin{pmatrix}0 & 1 & 2\\1 & 1 & 3\\0&1&2\end{pmatrix}\]
+It can quickly be discovered that this matrix is not full rank by subtracting the first row from the third row to get:
+\[\begin{pmatrix}0 & 1 & 2\\1 & 1 & 3\\0 & 0 & 0\end{pmatrix}\]
+Thus, the system is not controllable. The solution for $x$ can be written:
+\[x(t)=x_h+x_p=e^{At}x(0)+\int_0^te^{A(t-\tau)}bu(\tau)d\tau\]
+Note that what comes out of the integral will have the form:
+\[x_p=\begin{pmatrix}0\\\alpha(t)\\0\end{pmatrix}\]
+because of the structure of b. Therefore, the homogeneous part of the solution just needs an exponentially increasing part that isn't in the second column. Using octave, I found that A has 2 positive eigenvalues. Therefore, an $x(0)$ could be:
+\[x(0)=\begin{pmatrix}0\\0\\1\end{pmatrix}\]
+\section*{Problem 3}
+Remember that the rank of an $n\times m$ matrix $A$ is the number of independent columns of $A$ and $A$ is full-rank if $\rank(A)=n$. Show that $\rank(A)<n$ if and only if there exists a non-zero vector $x\in\mathbb{R}^n$ such that $x^TA=0$.\\
+If A is not full rank, that means it can be spanned by $r$ vectors, where $r<n$. It also means that it has a non-empty left null space.  Then a matrix $A_s$ could be made with elementary vectors that spans A with r linearly independent vectors and has the same null space as A:
+\[A_s=\left (e_1\bigg|e_2\bigg|\dots\bigg|e_r\bigg|0\bigg|\dots\bigg|0\right )=\begin{pmatrix}1&0&0&\dots&0\\0&1&0&\dots&0\\0&0&1&\dots&0\\0&0&0&\dots&0\\\vdots&\vdots&\vdots&\vdots&\vdots\\0&0&0&\dots&0\end{pmatrix}\]
+Thus, to make a $x_s$ that makes $x_s^TA_s=0$ all you need is for the $(r+1)$th row of x to be 1. Since the vectors of $A_s$ span $A$, the linear transformations that turn $A_s$ into $A$ will also turn $x_s$ into $x$, such that $x^TA=0$.\\
+
+Now, we need to show that if an $x$ exists that fulfills $x^TA=0$ then $A$ is not full rank. By definition, $x$ must belong to the left null space of A. The fundamental theorem of linear algebra states that the rank of the left null space plus the rank of the column space must be equal to n. Since, the left null space of A has at least 1 element, the system cannot be full rank.
+\end{document}

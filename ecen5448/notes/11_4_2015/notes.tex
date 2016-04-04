@@ -1,0 +1,76 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{Review of exam}
+I did good yay!!!\\
+Starting systems at an eigen vector, the solutino will be in that direction times some exponential.\\
+
+\section{Input Output gain of a system}
+$L2$ gain of a system is the maximum gain over all frequencies.\\
+Recap:\\
+\[y=Hu\]
+\[sup_{u\neq 0,\lvert\lvert u\rvert\rvert<\infty}\frac{\lvert\lvert Hu\rvert\rvert_2}{\lvert\lvert u\rvert\rvert_2}\]
+Fact: For a linear system H:
+\[L2\text{gain}=\sup_{\omega}\lvert\lvert H(j\omega)\rvert\rvert_{\text{ind.}2}\]
+\[=\sup_{\omega}\lambda_{\text{max}}^{\frac{1}{2}}\lvert H^{H}(j\omega)H(j\omega)\rvert\]
+This is in frequency domain, what about the time domain that we are used to working with.\\
+\section{Time Domain}
+For time-domain we want to go back to Lyapunov Analysis.\\
+\[\dot{x}=Ax+Bu\]
+\[y=Cx\]
+
+Question is that $\lvert\lvert H\rvert\rvert_{\text{ind.}}\leq \delta$?\\
+This is equivalent to saying that:\\
+\[\frac{\lvert\lvert H\rvert\rvert_{\text{ind.}}}{\delta}\leq 1\]
+Claim: Let P be a positive definite matrix:\\
+For $V(x)=x^TPx$,
+\[\dot{V}(x)\leq u^T(t)u(t)-y^T(t)y(t)\]
+\[\implies \lvert\lvert H\rvert\rvert_{\text{ind.}}\leq 1\]
+So this $V(x)$ is almost a Lyapunov function.\\
+Proof: Integrate both sides:\\
+\[\int_0^T\dot{V}(x)dx\leq\int_0^T\lvert\lvert u(t)\rvert\rvert^2dt-\int_0^T\lvert\lvert y(t)\rvert\rvert^2dt\]
+\[=V(x(T))-V(x(0))\leq \lvert\lvert u\rvert\rvert^2_{\in,[0,T]}-\lvert\lvert y\rvert\rvert^2_{\in [0,T]}\]
+Since, $V(x(0))$ is 0 we get that:
+\[\implies\lvert\lvert y\rvert\rvert^2_{\in [0,T]}\leq \lvert\lvert u\rvert\rvert^2_{\in[0,T]}\]
+This holds for any capital T which means that:
+\[\implies\lvert\lvert H\rvert\rvert_{\text{ind.}2}\leq 1\]
+You can drop the $V(x(T))$ because it is always positive based on its positive definiteness.\\
+
+\section{Looking at the meaning of this}
+Suppose $\dot{V}(x)\leq \lvert\lvert u\rvert\rvert^2-\lvert\lvert y\rvert\rvert^2$ for $V(x)=x^TPx$.\\
+\[x^T(PA+A^TP)x+u^TB^TPx+x^TPBu \leq u^Tu-x^TC^TCx\]
+This means that this is true if and only if you can take everything on the right hand side:\\
+\[\begin{pmatrix}x u\end{pmatrix}\begin{pmatrix}-(PA+A^TP)-C^TC & -PB\\-B^TP & I \end{pmatrix}\begin{pmatrix}x\\u\end{pmatrix}\geq 0 \forall x,u\]
+for any x and u we need this matrix to be positive semi-definite.\\
+So $\lvert\lvert H\rvert\rvert_{\text{ind.},2} <1$ iff\\
+\[\begin{pmatrix}-(PA+A^TP+C^TC) & -PB\\-B^TP & I\end{pmatrix}\geq 0\]
+Find $P$ such that this holds is a convex optimization problem.\\
+So the converse holds as well, thus, if H induced is less than or equal to one you can always find a positive definite P.\\
+
+\section{Skipping the topic of small gain theorem}
+
+\section{Moving on to Controllability}
+Will definetely be on the final.\\
+\[\dot{x}=f(x,u)\]
+Given how every many degrees of theorem that you have to effect, can you get a desired output?\\
+Question:\\
+\[\forall x_1,x_2\in\mathbb{R}^n,\exists ? T, u:[0,T]\to\mathbb{R}^m\]
+for the solution to $x(t)$ to the system above with $x(0)=x_1,x(T)=x_2$?\\
+For linear systems, it is sufficient that you can steer a system from any point in the space to 0.\\
+a system as above, $\forall x_1,x_2\in\mathbb{R}^n \exists T,\hat{u}:[0,T]\to\mathbb{R}^m$ the solution $x(t)$ to the system with $x(0)=x_1$ and $u=\hat{u}$ $x(T)=x_2$, is called a controllable system.\\
+
+
+\end{document}

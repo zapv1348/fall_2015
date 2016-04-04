@@ -1,0 +1,26 @@
+\relax 
+\citation{Jadbabaie}
+\citation{Franz}
+\citation{Hauser}
+\citation{Jadbabaie}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Background}{1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The thrust vectored wing we based our model on}}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Simulation and Optimization}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}Constant Gain}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The flight path using a constant gain}}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The non-optimized velocity during a Cuban Eight, note that the total error is positive}}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The actual $\gamma $ vs desired $\gamma $. The errors here are not huge, but do make a significant difference in the final position.}}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces $\omega =\mathaccentV {dot}05F{\theta }$ The derivative of the angle of the plane relative to the Inertial plane}}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Angle of attack, $\alpha $, looks as if a low pass filter was applied.}}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The U1 input, $f_x$. Note that it goes negative at one point in the graph which isn't allowed.}}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces The U2 input, $f_z$. This input is allowed to be negative so that we have a $\pi $ range of vectored thrust}}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-B}}Optimized Gain}{3}}
+\bibcite{Jadbabaie}{1}
+\bibcite{Franz}{2}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces The optimized gain flight path. As you can see it follows the desired trajectory extremely well.}}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The two optimized inputs relative to the desired. Note that $f_x$ no longer goes negative at around 36 seconds.}}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The states after optimization. Note that the velocity and $\gamma $ are almost perfectly following their desired states. The $\omega $ and $\alpha $ do not do this, still not being able to handle the fast changes in the desired values. The $\omega $ state compensates for this by overshooting on both sides of the fast changes, while the angle of attack compensates by basically applying a low pass filter to the desired change, and being non-causal.}}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Conclusion}{4}}
+\@writefile{toc}{\contentsline {section}{References}{4}}
+\bibcite{Hauser}{3}

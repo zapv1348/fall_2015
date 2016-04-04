@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\author{Zachary Vogel}
+\title{Caltech Ducted Fan Model\\ ECEN 5008}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+\section{Notes on Dynamics for Final Project}
+$m_x$ is inertia in the x direction.\\
+$m_z$ is inertia in the z direction\\
+$I_{yy}$ is rotational inertia\\
+$\rho_d$ is air density\\
+
+Aerodynamic compoents for lift drage and moment:
+$C_L=C_{L\alpha}(\alpha-\alpha_0)$ where $\alpha$ is the angle of attack. $x(0)=\alpha_0$. $C_{L\alpha}$ is the lift force\\
+$C_D=C_{D0}+\frac{1}{2}C_{D\alpha}(\alpha-\alpha_0)^2$\\
+$C_M=C_{M\alpha}(\alpha-\alpha_0)$\\
+
+$f_x=T\cos(\delta_\tau)$\\
+$f_z=-T\sin(\delta_\tau)$\\
+$\delta_\tau=K_{\delta_\tau}\delta_p$\\
+
+$\theta$ is the full angle combination of angle of attack, $\alpha$ and the flight path angle $\gamma$.\\
+
+\[\ddot{x}=\frac{1}{m_x}\left (\cos(\theta)f_x+\sin(\theta)f_z+\frac{1}{2}\rho_dSV(\dot{x}C_L(\alpha)-\dot{z}C_D(\alpha))\right)\]
+\[\ddot{z}=\frac{1}{m_z}\left (\cos(\theta)f_z-\sin(\theta)f_x-\frac{1}{2}\rho_dSV(\dot{x}C_L(\alpha)+\dot{z}C_D(\alpha))+m_zg\right )\]
+\[\ddot{\theta}=\frac{1}{I_{yy}}\left (l_tf_z+\frac{1}{2}\rho_dV^2C_M(\alpha)S\bar{c}-b_\theta\dot{\theta}\right )\]
+
+
+\[V=\sqrt{\dot{x}^2+\dot{z}^2}\]
+
+\[T=38.89V_m-3.14\]
+
+
+\[\begin{pmatrix}\dot{x}\\\dot{z}\end{pmatrix}=R_y(\gamma)=\begin{pmatrix}\cos(\gamma)&\sin(\gamma)\\-\sin(\gamma)&\cos(\gamma)\end{pmatrix}\begin{pmatrix}v\\0\end{pmatrix}\]
+\[\begin{pmatrix}\ddot{x}\\\ddot{z}\end{pmatrix}=\begin{pmatrix}\cos(\gamma)&\sin(\gamma)\\-\sin(\gamma)&\cos(\gamma)\end{pmatrix}\begin{pmatrix}\dot{v}\\-v\dot{\gamma}\end{pmatrix}\]
+\[R_y(\gamma)=\begin{pmatrix}\cos(\gamma)&0&\sin(\gamma)\\0&1&0\\-\sin(\gamma)&0&\cos(\gamma)\end{pmatrix}\]
+basis vector:
+\[\hat{e}_2=\begin{pmatrix}0&0&1\\0&0&0\\-1&0&0\end{pmatrix}\]
+solve one of the above eqquations for accels.
+\[\begin{pmatrix}\dot{v}\\-v\dot{\gamma}\end{pmatrix}=\begin{pmatrix}\cos(\gamma)&-\sin(\gamma)\\\sin(\gamma)&\cos(\gamma)\end{pmatrix}\begin{pmatrix}\ddot{x}\\\ddot{z}\end{pmatrix}\]
+$R_y(\gamma)$ is the 2 by 2 above.\\
+\[=R_y(\alpha)R_y(-\theta)\begin{pmatrix}\ddot{x}\\\ddot{z}\end{pmatrix}\]
+which is the acceleration in the body frame is the first two terms, the first rotation matrix puts us in the local frame
+
+
+\[\begin{pmatrix}m\dot{v}\\-mv\dot{\gamma}\end{pmatrix}=\begin{pmatrix}-D\\-L\end{pmatrix}+\begin{pmatrix}-\sin(\gamma)\\\cos(\gamma)\end{pmatrix}mg+R_y(\alpha)\begin{pmatrix}f_x\\f_z\end{pmatrix}\]
+dynamics, with the problem that $\gamma$ isn't one of our states so we need:
+\[\gamma=\theta-\alpha\]
+\[\dot{\gamma}=\omega-\dot{\alpha}\]
+\[mv\dot{\alpha}=-L+mg\cos(\theta-\alpha)-f_x\sin(\alpha)+f_z\cos(\alpha)+mv\omega\]
+\[J\dot{\omega}=l_\tau f_z+M_a\]
+$l_\tau$ is the distance between the center of mass and force application. with $M_a$ being the aerodynamic moment.\\
+
+\end{document}

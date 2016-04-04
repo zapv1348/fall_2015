@@ -1,0 +1,117 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\newcommand{\rank}{\text{rank}}
+\newcommand{\rng}{\text{range}}
+
+\begin{document}
+\maketitle
+
+
+\section{Controllability}
+\[\dot{x}=Ax+Bu\]
+System is controllable:
+\begin{enumerate}
+    \item iff $e^{-A\tau}B$ is linearly independent
+    \item iff $W(t,0)=(\int_0^Te^{-A\tau}BB^Te^{-A^T\tau}d\tau)$ is full rank.\\
+    \item iff $\rank(B AB A^2B \dots A^{n-1}B)=n$
+\end{enumerate}
+to drive the system from $x(0)\to 0$ $\forall x(0)$.\\
+
+We say that a state $x\in\mathbb{R}^n$ is reachable if $\exists T,\exists u$ such that:\\
+\[x(T)=\int_0^Te^{A(T-\tau)}Bu(\tau)d\tau=\int_0^Te^{As}*B*(u(T-s)=g(s))dx\]
+System is reachable if for any state in $\mathbb{R}^n$ we can drive the system from 0 to that point.\\
+A system is reachable iff rows of: $e^{A\tau}B$ are linearly independent iff:\\
+\[W_R(0,T)=-\int_0^Te^{A\tau}BB^Te^{A^T\tau}d\tau\]
+is invertible, iff $\rank(B AB A^2B \dots A^{n-1}B)=n$\\
+AKA a system is reachable iff it is controllable. All states that are reachable are controllable.\\
+
+\section{Controllability of LTV Systems}
+Supposedly, all this analysis except the rank condition will work for time varying systems.\\
+Baby version of time varying systems:\\
+Consider the system:
+\[\dot{x}=B(t)u(t)\]
+For a given initial condition, $x(t_0)\in\mathbb{R}^n$, what states $x(t_1)$ are reachable at $t_1$?\\
+Suppose that you can make $x(t_1)$ with $u$\\
+\[x(t_1)=\int_{t_0}^{t_1}B(t)u(t)dt+x(t_0)\]
+\[\implies x(t_1)-x(t_0)\in\rng\left (\int_{t_0}^{t_1}B(t)dt\right )=\mathcal{R}(B(t))\]
+The claim is that $\mathcal{R}(B(t))=\rng\left (\int_{t_0}^{t_1}B(t)B^T(t)dt\right)$\\
+How to show this?\\
+Suppose that \\
+\[y\in\rng\left (\int_{t_0}^{t_1}B(t)B^T(t)dt\right )\implies \exists \tilde{u}\in\mathbb{R}^m\]
+\[y=\int_{t_0}^{t_1}B(t)B^T(t)dt\tilde{u}\]
+Note that $y\in\mathcal{R}(B(t))$ as $u(t)=B^T(t)\tilde{u}$ would give $\int_{t_0}^{t_1}B(t)B^T(t)\tilde{u}dt=y$.\\
+
+Suppose that $y\in \mathcal{R}(B(t))$ and $y\not{\in}\rng\left (\int_{t_0}^{t_1}B(t)B^T(t)dt\right )$.\\
+
+Let $V\in\mathbb{R}^n$ be a linear subspace and $y\not{\in}V$. Then, if $y\neq 0$ there exists a $u\in\mathbb{R}^n$, s.t. $u^Tv=0 \forall v\in V$ and $u^Ty\neq 0$.\\
+Proof: Let B be an orthonormal basis for V and C be an orthonormal basis for $\mathbb{R}^n$(?). Furthermore, $y^Tc_i\neq 0$ for some $c_i\in\mathbb{C}$(?).\\
+Note that $c_i\bot v,\forall v\in V$.\\
+$V^{\bot}=\{u\bigg| u^Tv=0 \forall u\in V\}$.\\
+\[\implies \exists c\in\mathbb{R}^n, c^Ty\neq 0\]
+but $c^T\int_{t_0}^{t_1}B(t)B^T(t)dt\neq 0$.\\
+\[0=c^T\int_{t_0}^{t_1}B(t)B^T(t)dt\]
+(note: B must be continous) iff\\
+\[c^t\int_{t_0}^{t_1}B(t)B^T(t)dt c=0=\int_{t_0}^{t_1}\lvert\lvert B^T(t)c\rvert\rvert^2dt\]
+so this holds iff\\
+\[B^T(t)c=0\]
+But $y\in\rng(B(t))$ iff $\exists u(t)$\\
+\[y=\int_{t_0}^{t_1}B(t)u(t)dt\implies 0\neq c^Ty=\int_{t_0}^{t_1}c^TB(t)u(t)dt=0\]
+thus we have a contradiction.\\
+Also note that the matrix forming the range of $B(t)$ is extremely dependent on $t_0,t_1$.\\
+
+Now for the general system:\\
+\[\dot{x}(t)=A(t)x(t)+B(t)u(t)\]
+$x(t_1)\in\mathbb{R}^n$ at time $t_1$ is reachable from $x(t_0)$ at $t_0$ if $\exists u(t)$ such that:\\
+\[x(t_1)=\Phi(t_1,t_0)x(t_0)+\int_{t_0}^{t_1}\Phi(t_1,t))Bu(t)dt\]
+Theorem: $x(t_1)$ at $t_1$ is reachable from $x(t_0)$ at $t_0$ iff:\\
+\[\Phi(t_0,t_1)x(t_1)-x(t_0)\in\rng\left (\int_{t_0}^{t_1}\Phi(t_0,t)B(t)B^T(t)\Phi^T(t_0,t)dt\right )\]
+Reachability Gramian:\\
+\[W_R(t_0,t_1)=\int_{t_0}^{t_1}\Phi(t_0,t_1)B(t)B^T(t)\Phi^T(t_0,t)dt\]
+
+\section{Controllability Decomp}
+Fact: Suppose that $\rank(B AB \dots A^{n-1}B)=R<n$. Then, $\exists$ invertible $T$ such that if we let $z=Tx$, then:\\
+\[\dot{z}=\begin{pmatrix}\bar{A}_{11} & \bar{A}_{12}\\0 & \bar{A}_{22}\end{pmatrix}z+\begin{pmatrix}\bar{B}\\0\end{pmatrix}u\]
+Proof: Let 
+\[T=\begin{pmatrix}v_1^H\\v_2^H\\\dots\\v_r^H\\w_1^H\\\dots\\w_{n-1}^H\end{pmatrix}\]
+such that $(v_1,\dots,v_r)$ is an orthonormal basis for $\rng(B\dots A^{n-1}B)$ and $(w_1,\dots,w_{n-1})$ is an orthonormal basis for $R^{\bot}$.\\
+This will result in the controllability decomp.\\
+Showing this in homework is bonus.\\
+
+\section{Fourth check of Controllability}
+PBH-eigenvector test: Popov-Belevitch-Hautus\\
+any P in controls is Popov, any K is kalman.\\
+The pair $(A,B)$ is controllable iff $\rank(A-\lambda I; B)=n$ $\forall \lambda\in\mathbb{R}$\\
+Proof Sketch: Case that A is diagnolizable. Suppose that $wA=\Lambda w$ where:
+\[w=\begin{pmatrix}w_1^H\\\dots\\w_n^H\end{pmatrix}\]
+and\\
+\[\Lambda=\text{diag}(\lambda_1,\lambda_2,\dots,\lambda_n\]
+If we let $z=wx$ then:\\
+\[\dot{z}=w\dot{x}=wAw^Hz+wBu\]
+Note that $\rank(A-\lambda I,B)<n$ iff there exists $w$ such that $w^T(A-\lambda I)=0$ and $w^TB=0$ which would mean $W^T$ is an eigenvector for $A^T$.\\
+So a left eigenvector for A must be orthogonal to B.\\
+$\implies$ if $\rank()<n\implies \exists w_1,\dots,w_n \bot B$ for some $r\geq 1\ \implies$\\
+\[\dot{z}=\Lambda z+\begin{pmatrix}\bar{B}\\0\end{pmatrix}u\]
+and this system is clearly not controllable.\\
+
+It can be shown (?) that linear transformation $z=Tx$ using an invertible $T$ does not effect the controllability.\\
+
+What are the various controllability tests useful for?\\
+Suppose that we have $\dot{x}=Ax+Bu$. A is not stable.\\
+Question: $\exists$ $m\times n$ matrix K; $u=Kx$ such that the system is stable.\\
+i.e. $\dot{x}=Ax+BKx=(A+BK)x$ is stable?\\
+
+This is called Stabilizability.\\
+The difference between this and controllability is that controllability is finite time horizon.\\
+
+
+\end{document}

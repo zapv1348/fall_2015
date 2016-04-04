@@ -1,0 +1,98 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+
+\author{Zachary Vogel}
+\date{\today}
+\title{Notes in APPM 4650\\Adam Norris}
+
+\maketitle
+
+\section{Project Continued}
+$F+0x$, $T\bigg|_{t=0}=T_0$ and at $T=T_0$\\
+Cons of E: $\rho c_p\frac{\partial T}{\partial t}=A_fe^{-\frac{E}{RT}}+A(T-T_0)$
+$A_f$ exponential term is heat generation, other term on RHS is heat loss.\\
+Non-dimensional problem.\\
+\[\frac{d\theta}{d\sigma}=\delta e^{\theta}-\theta\]
+Initial condition $\theta\bigg|_{\mathfrak{T}=0}=0$.\\
+Theta as a function of $\mathfrak{T}$ is highly exponential.\\
+\[\delta\propto \frac{1}{H}\]
+\[\delta<\frac{1}{e}\]
+fizzle
+\[\delta>\frac{1}{e}\]
+explotion.\\
+
+$\delta=1, \delta=\frac{1}{5}$\\
+integrate $\frac{\delta \theta}{\delta \sigma}=\delta e^{\theta}-\theta$\\
+with too small of step size you will step right over the interesting part of the problem.\\
+for the explosion case, you want to solve:
+\[\frac{d\sigma}{d\theta}=\frac{1}{\delta e^{\theta}-\theta}\]
+asymptotic value for this guy above and the original in the fizzle case.\\
+\[0=\delta e^{\theta_f}-\theta_f\]
+can solve this with root finding.\\
+
+RK4 for the differential equations.\\
+fizzle problem
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l|l}
+        $\sigma$ & $\theta$\\ \hline
+        $0$ & $0$\\
+        $0.1$ & $\dots$\\
+        $0.2$ & $\dots$\\
+        $\vdots$ & $\vdots$\\
+        $\dots$ & $\theta_f$\\
+        $\dots$ & $\theta_f$
+    \end{tabular}
+\end{table}
+
+explotion problem
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l|l}
+        $\theta$ & $\sigma$\\ \hline
+        $0$ & $0$\\
+        $\vdots$ & $\vdots$\\
+        $\dots$ & $\sigma_{\text{explosion}}$\\
+    \end{tabular}
+\end{table}
+
+early solution:\\
+\[\frac{d\theta}{d\sigma}=\delta e^{\theta}-\theta\]
+I.C. $\theta\bigg|_{\sigma=0}=0$.\\
+taylor series of $e^{\theta}$.\\
+diff eq$\approx$
+\[\delta (1+\theta+\frac{\theta^2}{2}+\dots)-\theta\]
+\[\approx \delta+\theta(\delta-1)\]
+
+\[\theta\bigg|_{\theta=\sigma}=0\]
+\[\frac{d \theta}{d\sigma}\approx \delta+\theta(\delta-1)\]
+\[\frac{d\theta}{\delta+\theta(\delta-1)}=d\sigma\]
+\[\cfrac{d\theta}{\theta+\frac{\delta}{\delta-1}}=(\delta-1)d\sigma\]
+\[\ln \left (\theta+frac{\delta}{\delta-1}\right )=(\delta-1)\sigma +c\]
+\[\ln\left (\frac{\delta}{\delta-1}\right )=c\]
+\[\ln\left (\theta+\frac{\delta}{\delta-1}\right )=(\delta-1)\sigma+\ln \left (\cfrac{\delta}{\delta-1}\right )\]
+\[\ln\left (\cfrac{\theta+\frac{\delta}{\delta-1}}{\frac{\delta}{\delta-1}}\right )=(\delta-1)\sigma\]
+\[\theta=\frac{\delta}{\delta-1}e^{(\delta-1)\sigma}-\frac{\delta}{\delta-1}\]
+or $0=\dots$\\
+
+Clearly this is the first project. Start plotting these at the beginning of the problem next to the actual solutions.\\
+$\theta_f$ is the late solution for the fizzle, and we have early solutions for the fizzle and explosion. Need late solution for the explosion.\\
+
+late solution to $\frac{d\theta}{d\sigma}=\delta e^{\theta}-\theta$.\\
+\[\frac{d\theta}{d\sigma}=\delta e^{\theta}\].\\
+\[e^{-\theta}d\theta=\delta d\sigma\]
+\[-e^{-\theta}\approx \delta\sigma +c\]
+\[\theta\to \infty\]
+\[0=\delta \sigma_{\text{explosion}}+c\]
+\[c=-\delta \sigma_{\text{explosion}}\]
+\[-e^{-\theta}=\delta \sigma -\delta\sigma_{\text{explosion}}\]
+\[-e^{-\theta}=\delta(\sigma-\sigma_{\text{explosion}}\]
+
+
+\end{document}

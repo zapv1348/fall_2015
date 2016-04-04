@@ -1,0 +1,57 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+
+\author{Zachary Vogel}
+\date{\today}
+\title{Notes in APPM 4650\\Adam Norris}
+
+\maketitle
+
+
+
+\section{Project con.}
+env at $t+0$.
+$f+0x$\\
+\[a+t=0\]
+\[T=T_0\]
+$A_f\sim$ cone of fuel\\
+\[\frac{dA_f}{dt}=-c_0 A_fe^{-\frac{E}{RT}}\]
+$\dot{Q}_{\text{loss}}=H(T-T_0)$\\
+Conservation of energy(thermal)\\
+\[\frac{dE}{dt}=-c_0 \frac{dA_{f}}{dt}_{\text{source}}-\dot{0}_{\text{loss to sunraml}}\]
+\[SC_v\frac{dT}{dt}=c_0 e^{-\frac{E}{RT}}-H(T-T_0)\]
+$\rho$ is mass density, $C_v$ is heat capacity\\
+$T|_{t=0}=T_0$\\
+\[\tilde{T}=\frac{T}{T_0}=1+(\epsilon \theta)\]
+want to study theta.\\
+\[\mathfrak{T}=\frac{t}{t_{\text{char}}}\]
+High activation energy problem\\
+\[\epsilon=\frac{RT_0}{E}<<1\]
+\[T=T_0+\epsilon \theta T_0\]
+\[t=Tt_{\text{char}}\]
+\[\frac{d\theta}{d\mathfrak{T}}=e^{\theta}-\frac{\theta}{\delta}\quad \theta|_{\mathfrak{T}=0} 0\]
+$\delta\sim \frac{1}{H}\sim$ named Frank Kammetski parameter, has a bunch of other constant burried in it.\\
+scaled time a bunch, that's why $\mathfrak{T}$ and T.\\
+define $\sigma=\delta T$.\\
+\[\frac{d\theta}{d\sigma}=\delta e^\theta -Q\quad \theta|_{\sigma=0}=0\]
+rate of heat generation is the delta exponential term, rait of heat loss to environment is the Q.\\
+differential term is the rate of energy accumulation in the box.\\
+A graph of theta vs sigma is close to 0 for a while, then can explode. This can be delayed if you remove enough energy. It can also just fizzle if your removing energy fast enough.\\
+Equilibrium vs fig\\
+\[\delta e^\theta -\theta=0\]
+that is the dividing line between fizzle and explotion.\\
+\[\delta e^{\theta}-\theta=0\]
+\[\delta e^{\theta}-1=0\]
+\[\theta=1\]
+\[\delta=\frac{1}{e}\]
+gonna need to take some special steps to make the ode solver work.\\
+when you have weird explosions and stuff, you call it a stiff differential equation.\\
+
+
+\end{document}

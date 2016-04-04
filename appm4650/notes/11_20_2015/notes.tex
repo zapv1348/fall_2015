@@ -1,0 +1,36 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+
+\author{Zachary Vogel}
+\date{\today}
+\title{Notes in APPM 4650\\Adam Norris}
+
+\maketitle
+
+
+
+\section{solution to matrix}
+\[Ax=b\]
+A is invertible\\
+\[x_1=\frac{b_1-\sum_{j=2}^na_{ij}x_j}{a_{11}}\]
+\[x_2=\frac{b_2-\sum_{j\neq 2}^na_{ij}x_j}{a_{22}}\]
+\[x_n=\frac{b_n-\sum_{j\neq n}^na_{ij}x_j}{a_{nn}}\]
+
+use an initial guess $x_0$. Correct with the above equations. Do this and redo until you converge.\\
+This relies on doing preprocessing to make the diagnol of A large relative to everything else in the matrix.\\
+Then a good initial guess is $x_i=\frac{b_i}{a_{ii}}$.\\
+Little better if you do:
+\[x_i^*=\frac{b_i-\sum_{j=1}^{i-1}a_{ij}x_j^*-\sum_{j=i+1}^na_{ij}x_j}{a_{ii}}\]
+Guass-Seidel.\\
+looking for how to stop:\\
+residual $r=b-Ax$, watch $\lvert r\rvert<\epsilon$.\\
+
+\[x_i^*=x_i+\frac{r_i}{a_{ii}}\]
+
+\end{document}

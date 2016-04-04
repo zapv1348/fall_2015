@@ -1,0 +1,98 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{Detectability}
+\[\dot{x}=Ax+Bu\]
+\[y=Cx\]
+$\exists H_{n\times q}$ such that $(A-HC)$ is Hurwitz\\
+\[\dot{\hat{x}}=(A\hat{x}+Bu)+H(y-\hat{y})\]
+\[\hat{y}=C\hat{x}\]
+\[\dot{e}=\dot{(x-\hat{x})}=(A-HC)e\]
+If H is such that $(A-HC)$ is Hurwitz then $e\to 0$.\\
+
+\subsection{Effect of Distrubance}
+\[\begin{array}{c}\dot{x}=Ax+Bu+Ld\\y=Cx+n\end{array}\]
+observer
+\[\dot{\hat{x}}=A\hat{x}+Bu+H(y-\hat{y})\]
+\[\hat{y}=C\hat{x}\]
+\[\dot{e}=\dot{(x-\hat{x})}=Ax+Bu+Ld-(A\hat{x}+Bu+H(C(x-\hat{x}))+n)\]
+\[=(A-HC)e+Ld-Hn\]
+No matter the disturbance you have, the effect of the noise on the error is finite. (Paraphrase) Since $(A-HC)$ is Hurwitz, the effect of the disturbances on the observer is finite (i.e. the Ln norm between the disturbance and state is finite).\\
+\subsection{Output stabilizable}
+Def: For $\dot{x}=Ax+Bu$, $y=Cx$ is output stabilizable if $\exists K$; if we let $u=Ky$, then the closed-loop system is stable.\\
+So we have a feedback gain matrix K.
+\[\dot{x}=Ax+BCKx=(A+BCK)x\]
+Let, $u=\gamma y$ cause 1-D K.
+\[\dot{x}=\begin{pmatrix}0 &1\\0&1\end{pmatrix}+\begin{pmatrix}0&0\\\gamma&0\end{pmatrix}x\]
+\[\dot{x}=\begin{pmatrix}0&1\\\gamma&1\end{pmatrix}x\]
+\[C(\lambda)=\lambda^2-\lambda-\gamma\]
+\[\lambda_{1,2}=\frac{1\pm\sqrt{1+4\gamma}}{2}\]
+which means one of the eigenvalues must be in the RHP, meaning it can't be Hurwitz.\\
+
+To output stabilize the dynamics:
+\[\begin{array}{c}\dot{x}=Ax+Bu\\y=Cx\\\dot{\hat{x}}=A\hat{x}+Bu+H(y-\hat{y})\\\hat{y}=C\hat{x}\\u=-K\hat{x}\end{array}\]
+So that $(A-BK)$ is Hurwitz. Then, we get:
+\[\dot{x}=Ax-BK\hat{x}\]
+\[\dot{\hat{x}}=(A-BK-HC)\hat{x}+HCx\]
+\[\dot{\begin{pmatrix}x\\\hat{x}\end{pmatrix}}=\begin{pmatrix}A&-BK\\HC&A-BK-HC\end{pmatrix}\begin{pmatrix}x\\\hat{x}\end{pmatrix}\]
+rename part of the state:\\
+\[e=x-\hat{x}\]
+\[\begin{pmatrix}x\\\hat{x}\end{pmatrix}\to\begin{pmatrix}x\\e\end{pmatrix}=\begin{pmatrix}I&0\\I&-I\end{pmatrix}\begin{pmatrix}x\\\hat{x}\end{pmatrix}\]
+\[\dot{x}=Ax-BK(x-e)=(A-BK)x+BKe\]
+\[\dot{e}=\hat{(x-\hat{x})}=Ae+HCe=(A+HC)e\]
+\[\dot{\begin{pmatrix}x\\e\end{pmatrix}}=\begin{pmatrix}A-BK&BK\\0&A+HC\end{pmatrix}\begin{pmatrix}x\\e\end{pmatrix}\]
+Then, call the block matrix $\tilde{A}$ and the eigenvalues of $\tilde{A}$ are the union of the eigenvalues of $A-BK$ and $A+HC$ (why?).\\
+\subsection{Realization}
+\[\dot{x}=Ax+Bu\]
+\[y=Cx\]
+Time-dommain transfer function: $H(\tau)=Ce^{A\tau}B$.\\
+Frequency-domain transfer function: $H(s)=C(sI-A)^{-1}B$.\\
+A realization of a transfer function $H(\tau)$ is a linear system.
+\[\begin{array}{c}\dot{x}=Ax+Bu\\y=Cx\end{array}\]
+such that $H(\tau)=Ce^{A\tau}B$. Note that realization is not unique.\\
+Minimal REalization: We say that the realization $(A,B,C)$ of $H(\tau)$ is minimal if $\forall$ realization $(\bar{A},\bar{B},\bar{C})$ of $H(\tau)$,\\
+\[\dim(A)\leq \dim(\bar{A})\]
+Fact: A realization $(A,B,C)$ is minimal iff $(A,B)$ is controllable and $(A,C)$ is observable.\\
+PROOF: $(A,B,C)$ minimal $\implies\ (A,B)$ controllable, $(A,C)$ observable.\\
+If $(A,B)$ is not controllable, we can transform them into:
+\[\begin{pmatrix}A_c&A_{cu}\\0&A_u\end{pmatrix},\begin{pmatrix}B_c\\0\end{pmatrix},(C_c C_{cu})\]
+IN this case, you can show that:
+\[Ce^{A\tau}B=C_ce^{A_c\tau}B_c\]
+$\implies (A_c,B_c,C_c)$ is a realization of smaller dimension.\\
+same thing for observability.\\
+
+Now, for the $\leftarrow$. So we have observability and controllability, let us show that the realization is minimal.\\
+\[Ce^{A(t-\tau)}B=\tilde{C}e^{\tilde{A}(t-\tau)}\tilde{B}\]
+multiply from the left by $e^{A^Tt}C^T$ will give:
+\[\int_0^Te^{A^Tt}C^TCe^{At}dte^{-A\tau}B=\int_0^Te^{A^Tt}C^T\tilde{C}e^{\tilde{A}t}dte^{-\tilde{A}\tau}\tilde{B}\]
+The integral term is called $M$.\\
+\[=W_O(0,T)e^{-A\tau}B=Me^{-\tilde{A}\tau}\tilde{B}\]
+now multiply from the right by $B^Te^{-A^T\tau}$ gives:
+\[W_O(0,T)\int_{-T}^0e^{-A\tau}BB^Te^{-A^T\tau}d\tau\]
+\[=M\int_{-T}^0e^{-\tilde{A}\tau}\tilde{B}B^Te^{-A^T\tau}d\tau\]
+call the integral N to get:
+\[\implies W_O(0,T)W_C(0,T)=WN\]
+these two matrices must be invertible, so $LHS$ is invertible, so $MN$ should be invertible. Note that if $n$ is the dimension of A and $\tilde{n}$ is the dimension of $\tilde{A}$.\\
+then $M_{n\times\tilde{n}}$ and $N_{\tilde{n}\times n}$, so $\tilde{n}\geq n$ because of matrix dimesnsions.\\
+
+\section{next time}
+talk a little bit about linear quadratic regulators, touching on optimal control.
+
+
+\section{Notes}
+the K function mapping y to u is not linear in general, your notes will say otherwise.\\
+
+\end{document}

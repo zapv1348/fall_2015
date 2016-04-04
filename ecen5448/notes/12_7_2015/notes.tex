@@ -1,0 +1,100 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{Optimal Control Problem}
+This class doesn't actually cover interesting things, but it provides the basis for interesting things. Here we cover a basic optimal control lecture to illustrate the power of this class.\\
+general non-linear dynamics:
+\[\dot{x}=f(x,u,t),\quad x(t_0)\in\mathbb{R}^n\]
+This lecture is about one of the ways that u is often chosen.\\
+One question is how to optimally take $x(t_0)$ to $x_T$ at a given time.\\
+minimize star below:
+\[\int_{t_0}^{t_1}l(x(\tau),u(\tau),\tau)d\tau+m(x(t_1))=V(u)\]
+subject to:
+\[\dot{x}=f(x,u,t)\]
+with a given $x(t_0)$. Here, $l:\mathbb{R}^n\times \mathbb{R}^m\times \mathbb{R}\to\mathbb{R}$ and $m:\mathbb{R}^n\to\mathbb{R}$ m is cost.\\
+
+How to solve this? Through dynamic programming:\\
+Let $V^O(x_0,t_0)$ be $\min_{u(t_0,t_1)}V(u)$ subject to $x(t_0)=x_0$ in star.\\
+$v^O$ is also called the value function of star.\\
+\[V^O(x_0,t_0)=\min_{u[t_0,t_1]}V(u)=\min_{u(t_0,t_1)}\int_{t_0}^{t_1}l(x(\tau),u(\tau),\tau)d\tau+m(x(t_1))\]
+break up the integral between $t_0$ and $t_1$ with an intermediate value $t_m$ where $t_0\leq t_m\leq t_1$:
+\[=\min_{u(t_0,t_1)}\int_{t_0}^{t_m}l(x(\tau),u(\tau),\tau)d\tau+\int_{t_m}^{t_1}l(x(\tau),u(\tau),\tau)d\tau+m(x(t_1))\]
+\[=\min_{u[t_0,t_m]}\left (\int_{t_0}^{t_m}l(x(\tau),u(\tau),\tau)d\tau+min_{t_m,t_1}\int_{t_m}^{t_1}l(x(\tau),u(\tau),\tau)d\tau+m(x(t_1))\right )\]
+the second integral is $V^O(x(t_m),t_m)$.\\
+\[=\min_{u[t_0,t_m]}\int_{t_0}^{t_m}l(x(\tau),u(\tau),\tau)d\tau+V^O(x(t_m),t_m)\]
+Let $t=t_0$, let $x=x_0$ and let $t_m=t+\delta t$. Then:
+\[V^O(x,t)\approx\min_{u\in\mathbb{R}^m}(l(x,u,t)*\delta t+V^O(x,t)+\frac{d}{dt}V(x,t)\delta t+\frac{\partial V(x,t)}{\partial x}\delta x)\]
+so the last two terms with derivatives are $\approx V^O(x(t,\delta t),\delta t)$ and $\delta x=x(t+\delta t)-x(t)$.
+\[\implies \frac{d}{dt}V^O(x,t)\approx\min_{u\in\mathbb{R}^n}(l(x,u,t)+\frac{\partial V^O(x,t)}{\partial x}f(x,u,t))\]
+dynamic programming equation.\\
+The equation $-\frac{dV^O(x,t)}{dt}=\min_{u\in\mathbb{R}^m}(l(x,u,t)+\nabla_xV^O(x,t)f(x,u,t))$ note that $v^O(x,t_1)=m(x)$\\
+with the terminal condition $V^O(x,t)=m(x)$ is called Hamilton-Jacobi-Bellman equation.\\
+Theorem: Suppose that $V^O(x,t)$ is a function that has continous partial derivatives and also, $u^O(t)$ is such that:
+\[\min_{u\in\mathbb{R}^n}(l(x,u,t)+\nabla_x V^O(x,t)f(x,u,t))=l(x,u^O,t)+\nabla_xv^O(x,t)f(x,u^O,t).\]
+Then $u^O(t)$ is the optimal control and $V^O$ is the value function iff $V^O$ satisfies HJB equation.\\
+
+Define the hamiltonian:
+\[H(x,u,p,t)=l(x,u,t)+p^T*f(x,u,t)\]
+HJB eqution can be written:
+\[-frac{-d}{dt}V^O(x,t)=\min_{u\in\mathbb{R}^m}H(x,u,\nabla_xV^O,t)\]
+with $v^O(x,t_1)=m(x)$\\
+
+so here, $u$ is a state feedback.
+
+\section{Example}
+Suppose we have an integrator with everything being 1.
+\[\dot{x}=u\quad x_0 \exists\]
+\[\min\int_0^{t_1} (u^2+x^4)d\tau\]
+\[l(x,u,t)=u^2+x^4\]
+\[m(x)=0\]
+
+\[-\frac{d}{dt}V^O(x,t)=\min_u(u^2+x^4+\frac{\partial v^O}{\partial x}u)\]
+\[u^O(x,t)=-\frac{1}{2}\frac{dV^O}{dx}(x,u)\]
+\[\dot{x}^O=+u^O=-\frac{1}{2}\frac{dV^O}{dx}(x,t)\]
+closed loop dynamics above, now find $V^O(t,x)$ can be obtained by solving:
+\[-\frac{d}{dt}V^O(x,t)=x^4-\frac{1}{4}(\frac{dV^O}{dx}(x,t))^2\]
+with $V^O(x,t)=0$\\
+
+\section{LQR}
+An important subset of optimal control problems is called Linear Quadratic Regulator problems. Here, we talk about the Linear time varying case.\\
+\[\dot{x}(t)=A(t)x(t)+B(t)u(t),\quad x(t_0)\in\mathbb{R}^n\]
+\[\min \int_{t_0}^{t_1}(x^T(\tau)Q(\tau)x(\tau)+u^T(\tau)R(\tau)u(\tau))d\tau+x^T(t_1)Mx(t_1)\]
+with p.d. TV $Q(t),R(t)$ and p.d. M. This is the standard setting of these problems.\\
+
+Let us use the machinery discussed before for this problem. What is $u(t)$, it is the minimizer of the HJB. (below is still functions of t)
+\[u^O(t)=\arg\min_u(x^TQx+u^TRu+\nabla_xV^O(x,t)(Ax+Bu))\]
+from first order condition
+\[\implies 2Ru^O+B^T\nabla_x V^O(x,t)=0\]
+\[\implies u^O=-\frac{1}{2}R^{-1}B^T\nabla_xV^O(x,t)\]
+HJB:
+\[-\frac{d}{dt}V^O(x,t)=x^TQx+\cfrac{(\nabla_xV^O)^TBR^{-1}RR^{-1}B^T(\nabla_xV^O)}{4}+\nabla_xV^O(x,t)(Ax-\frac{BR^{-1}}{2}B^T\nabla_xV^O)\]
+\[V(x,t_1)=x^TMx\]
+This suggest that the value function itself, $V^O(x,t)=x(t)^TP(t)x(t)$ should be a quadratic function.\\
+Let's examine this to see if it works.\\
+\[-x^T\dot{P}x=x^TQx+x^TP(t)BR^{-1}B^TP(t)x+2x^TPAx-2x^TP(t)BR^{-1}B^TPx\]
+\[=x^TQx+x^T(PA+A^TP)x-x^TPBR^{-1}BPx\]
+This should hold for all x in the space therefore:
+\[\dot{P}=Q+PA+A^TP-PBR^{-1}B^TP\]
+\[P(t_1)=M\]
+This $\uparrow$ ode is called the Riccati differential equation.\\
+As long as P, Q, A, and R are nice enough, teh solution is definite and solves the LQR problem.\\
+Theorem: Suppose that $A(t),B(t),Q(t),R(t)$ are piecewise continuous matrix functions of $t\in [t_0,t_1]$. Suppose that $R(t)$ is positive definite, then the solution to the Ricatte Differential Equation (RDE) exists, and is unique. Furthermore, $P(t)$ is positive definite and teh optimal control to the LQR problem is:
+\[u(t)=-K(t)x(t)\]
+with $K(t)=R^{-1}B^TP$.\\
+
+P is always time-varying even when the other stuff isn't. $x^TPx$ is a lyapunov function.\\
+Pontryagin max principle.\\
+\end{document}

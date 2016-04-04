@@ -1,0 +1,89 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{Some matrix Algebra}
+$A_{n\times m}$
+Range$(A)=Im(A):=\{y:y=Ax$ for some $x\in\mathbb{R}^m\}$
+\[A=\begin{bmatrix}a_1\bigg|a_2\bigg|\dots\bigg|a_m\end{bmatrix}\]
+$a_i\in\mathbb{R}^n$ and $Ax=x_1a_1+x_2a_2+x_3a_3+\dots+x_ma_m$.
+
+\[A=\begin{pmatrix}1&0&1\\1&1&2\\2&2&4\\3&3&6\end{pmatrix}\]
+\[A_{\text{reduced}}=\begin{pmatrix}1 &0\\1&1\\2&2\\3&3\end{pmatrix}\]
+\[Im(A)=IM(A_{\text{reduced}})\]
+Reminder about a subspace, V is a subspace of $\mathbb{R}^n$ if $\forall v_1,v_2,\dots\in V$ and any $\alpha\in\mathbb{R}, v_1+\alpha v_2\in\mathbb{V}$.\\
+For a given subspace $V$ find a matrix such that the image of $A$ is V.\\
+For arbitrar subspace $V\subseteq \mathbb{R}^n$ we know there exists a basis $\{v_1,\dots ,v_k\}\subseteq\mathbb{R}^n$ for $V$. If we let $A=[v_1v_2\dots v_k]$, then $IM(A)=V$.\\
+$rank(A):=$ minimum number of columns of A that span$Im(A)=dim(Im(A))$.\\
+
+Basis: We say that $\{b_1,\dots,b_k\}$ is a basis for a subspace $S$ if the bs are linearl independent and $\forall s\in S, \exists c\in\mathbb{R}^d, s=Bc$ where B is the matrix made up of the b vectors (linear combinations of b form every point in S).\\
+
+Fact: Suppose that columns of $B_{n\times n}$ are a basis for $S$. $\forall$ invertible matrices $T_{n\times m}$; the columns of $\tilde{B}:=BT$, are a basis for $S$.\\
+Proof: columns of $\tilde{B}$ are independent iff $\tilde{B}x=0$ implies that $x=0$.\\
+if: $0=\tilde{B}x=B(Tx)\implies Tx=0\implies x=0$ because T is invertible.\\
+
+Second part: any vector in S can be constructed with $\tilde{B}$ just like $B$.\\
+Let $s\in S, \exists c\in\mathbb{R}^m; s=Bc$. If we let $\tilde{c}=T^{-1}c$. Then, $\tilde{B}\tilde{c}=BT\tilde{c}=BTT^{-1}c=Bc=s$.\\
+
+The columns of $B$ are an orthonormal basis for S if in addition to being a basis for S, $B^TB=I$.\\
+Note that $B^TB=I$ iff $b_i^Tb_j=0, i\neq j$ and $b_i^Tb_j=1, i=j$.\\
+
+IMportant fact: For a symmetric (or Hermetian) matrix A, there always exists $M$ and diagnol matrix $\Gamma$;
+\[A=M\Gamma M^T, MM^T=I\]
+If $Av=\lambda_1v$, $Aw=\lambda w$, then $w^TAv=\lambda_1w^Tv=\lambda_2w^Tv$ because column eigenvectors are also row eigenvectors for symmetric matrices.\\
+
+FACT: For symmetric positive definite (p.d.) matrix $P$, $\exists$ a symmetric matrix $R$; $P=R^2$.\\
+Proof: for a p.d. P, $P=M\Gamma M^T=M\sqrt{\Gamma}M^TM\sqrt{\Gamma}M^T=R*R$.\\
+$R=M\sqrt{\Gamma}M^T$.\\
+For a basis matrix $B$, $B^TB$ is p.d.$\implies$\\
+\[B^TB=R*R\]
+for some invertible R. Now define $\tilde{B}=BR^{-1}$. Then $\tilde{B}$ is an orthonormal basis for $S$.\\
+\[\tilde{B}^T\tilde{B}=R^{-T}B^TBR^{-1}=R^{-T}RRR^{-1}=I\]
+so there is always an orthonormal basis for any basis.\\
+Let S be a subspace of $\mathbb{R}^n$. Then we define the orthogonal compliment of S by:
+\[S^{\bot}:=\{x:x^Ts=0\forall s\in S\}\]
+
+Suppose the columns of $B$ form an orthonormal basis for S. $\forall x\in \mathbb{R}^n$,\\
+\[x=x_s+x_{s\bot}\]
+where $x_s\in S$ and $x_{s\bot}\in S^{\bot}$.\\
+Proof: Let $x_s=BB^Tx$ and $x_{s\bot}=(I-B^TB)x$.\\
+can show that this projects x onto $S$ and $S^\bot$.\\
+$x_s$ has to be in S because it is constructed by $B$ times something which is spanned by the image of B.\\
+Then, $x_s\in S$. show that $x_{s\bot}\in S^{\bot}$, we need to show that $\forall c$ $(Bc\bot x_s)$.\\
+\[c^TB^T(I-BB^T)x=c^TB^Tx-c^TB^Tx=0\]
+
+Corollary 1: $S^\bot=IM(I-B^TB)$\\
+Corollary 2: $n=\dim(S)+\dim(S^\bot)$.\\
+
+\section{BACK TO CONTROLLABILITY}
+$\dot{x}=Ax+Bu$ is controllable if $\leftrightarrow$ of $e^{-A\tau}$ are independent.\\
+$\leftrightarrow \Omega(0,T)=\int_0^Te^{-A\tau}BB^Te^{-A^T\tau}d\tau$ is non-singular\\
+$\leftrightarrow rank (B AB A^2B\dots A^{n-1}B)=n$.\\
+Proof: Use Calley Hamilton,\\
+\[e^{-A\tau}=\alpha_0(\tau)I+\alpha_1(\tau)A+\dots+\alpha_{n-1}(\tau)A^{n-1}\]
+\[\implies e^{-A\tau}=\alpha_0(\tau)B+\alpha_1(\tau)AB+\dots+\alpha_{n-1}(\tau)A^{n-1}B\]
+\[\implies \exists x, x(B AB \dots A^{n-1}B)=0,\]
+\[\implies x^Te^{-A\tau}B=\alpha_0(\tau)x^TB+\alpha_1(\tau)x^TAB+\dots+\alpha_{n-1}(\tau)x^TA^{n-1}B=0\]
+Question: Show that $rank(A)<n,\ \exists x\neq 0, x^TA=0$.
+
+
+Controllability $\implies$ rank$(B AB\dots A^{n-1}B)=n$.\\
+
+Suppose that, $\dot{x}=Ax+Bu$ is not controllable:\\
+\[\implies \exists y; y^Te^{-A\tau}B=0\implies y^TB=0\]
+\[\implies \frac{d}{d\tau}(y^Te^{-A\tau}B=-y^Te^{-A\tau}AB\bigg|_{\tau=0}=-y^TAB\]
+\[\implies \frac{d^{n-1}}{d\tau^{n-1}}y^Te^{-A\tau}\implies (\pm)y^TA^{n-1}B=0\]
+
+\end{document}

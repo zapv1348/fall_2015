@@ -1,0 +1,118 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{A test that will be useful}
+Fact: Let A be Horwitz. Then (A,B) is controllable iff $\exists$ p.d. $W$ such that:\\
+(1)\\
+\[WA^T+AW=BB^T\]
+Proof: Let (A,B) be controllable. Then:
+\[W=\int_0^\infty e^{A\tau}BB^Te^{A^T\tau}d\tau\]
+will solve the equation and $W$ is p.d.\\
+Basically the controllability gramian from 0 to $\infty$.\\
+\[\frac{dM}{dt}=M(t)A^T+AM(t)\quad M(0)=BB^T\]
+The solution to the above ode is:
+\[M=e^{At}BB^Te^{A^Tt}\]
+On the other hand, by integration of both sides:\\
+\[\int_0^T\frac{dM}{dt}dt=\int_0^T(e^{At}BB^Te^{A^Tt})dtA^T+A\int_0^T(e^{At}BB^Te^{A^Tt})dt\]
+\[\implies -BB^T=WA^T+AW\]
+
+$\leftarrow :$So let $(\lambda,v)$: $v^TA=\lambda v^T$. We need to show that $v^TB\neq 0$.\\
+
+Note that if (1) has a solution, then:\\
+\[\lvert\lvert B^Tv\rvert\rvert^2=v^TBB^Tv=v^T(WA^T+AW)v\]
+\[=\lambda v^TWv+\lambda v^TWv<0\]
+\[\implies \lvert\lvert B^Tx\rvert\rvert^2\neq 0\]
+assuming $\lambda\neq 0$.\\
+
+Why is this nice?\\
+Fact: Let (A,B) be controllable.\\
+Then, $\exists$ p.d. W;\\
+\[WA^T+AW+BB^T=-Q\]
+for some p.d. Q.\\
+
+Proof: The key B to look at $(-A-\mu I)$. The eigenvectors of $A$ and $(-A-\mu I)$ are the same. For large enough $\mu$, $(-A-\mu I)$ is Horwitz (?).\\
+$(A,B)$ controllable $\implies$ $(-A-\mu I,B)$ is controllable for $\mu>0$.\\
+\[\implies \exists W; W(-A-\mu I)^T+(-A-\mu I)W=-BB^T\]
+\[\implies WA^T+AW-BB^T=-2\mu W\]
+
+Definition: For the system:\\
+\[\dot{x}=Ax+Bu\]
+we say it is feedback stabilizable if $\exists K$; if\\
+\[u=Kx\implies \dot{x}=Ax+BKx=(A+BK)x\]
+is stable, i.e. $(A+BK)$ is Horwitz for some $K$.\\
+
+Fact: If $(A,B)$ is controllable $\implies$ the system is feedback stabilizable.\\
+Proof: By previous result $\exists W-Q>0$\\
+\[WA^T+AW-BB^T=-Q\]
+Let $P=W^{-1}$\\
+\[PWA^TP+PAWP-PBB^TP=-PQP=-\tilde{Q}\]
+\[\implies A^TP+PA-PBB^TP=-\tilde{Q}\]
+
+Let $K=\frac{1}{2}B^TP\implies$\\
+\[(A^TP-K^TB^TP)+(PA-PBK)=-\tilde{Q}\]
+\[(A-BK)^TP+P(A-BK)=-\tilde{Q}\]
+$\implies (A-BK)$ is horwitz because P,Q are positive definite. So a K exists that makes the system stable.\\
+
+Theorem: $(A,B)$ is controllable iff $\forall \lambda_1,\dots,\lambda_n\in\mathbb{C} \exists K\in \mathbb{C}^{n\times n}; (A+BK)$ has eigenvalues $\lambda_1,\dots,\lambda_n$\\
+
+
+\section{State Transfomrations}
+\[\dot{z}=T\dot{x}=TAx+TBu=TAT^{-1}z+TBu\]
+\[y=CT^{-1}z+Du\]
+Many properties of the system (are naturally) invariant under under state transformation.\\
+
+1. Unforced system stability
+2. Controllabilityi
+
+\[(B AB \dots A^{n-1}B) (TB TAB TA^2B \dots TA^{n-1}B)\]
+Controllabilliyt of original system and transfomred system.
+$\implies$ rank$(B AB\dots A^{n-1}B)=$rank $(TB TAB \dots TA^{n-1}B)$ because T is invertible.\\
+
+3. Transfer Function.\\
+
+Recall that for an unctrollable system:
+\[\dot{x}=Ax+Bu\]
+$\exists T$ s.t. $T^{-1}=T^T;$ $\tilde{x}=Tx$\\
+\[\implies \dot{\tilde{x}}=(A=\begin{pmatrix}A_c & A_{cu}\\0 & A_u\end{pmatrix})\tilde{x}+\begin{pmatrix}\tilde{B}\\0\end{pmatrix}u\]
+and $(A_c,\tilde{B})$ is controllable.\\
+
+For this form if $v^T\tilde{A}=\lambda v^T$ and $v^T\begin{pmatrix}\tilde{B}\\0\end{pmatrix}=0$.\\
+, then $v=\begin{pmatrix}0\\\tilde{v}\end{pmatrix}$ s.t. $\tilde{v}^TA_u=\lambda \tilde{v}$.\\
+Because if $v=\begin{pmatrix}v_1\\\tilde{v}\end{pmatrix}\implies v_1^TAc=\lambda v_1^T$\\
+and $v_1^T\tilde{B}=0\implies v_1=0$ by controllability of $A_c,\tilde{B}$.\\
+
+Definition: We say that a:\\
+\[\dot{x}=Ax+Bu\]
+is stabilizable if $\forall x(0)\in\mathbb{R}^n, \exists u:[0,\infty)\to\mathbb{R}^m$.\\
+if $x(t)$ is a solution, then $\lim_{t\to\infty}x(t)=0$\\
+similar to controllability, but with infinite time.\\
+
+
+Fact: $\dot{x}=Ax+Bu$ is stabilizable iff $\forall v: v^TA=\lambda v^T$ and Re$(\lambda)\geq 0$, $v^TB\neq 0$\\
+Proof: Stabilizable $\implies$ this.\\
+Suppose this doesn't hold $\implies \exists v; v^TA=\lambda v^T,$ Re$(\lambda)\geq 0$ and $v^TB=0$.\\
+For $x(0)=v; \exists u; x(t)\to 0$ as $t\to \infty$.\\
+\[v^T\left (x(t)=e^{At}v+\int_0^te^{A(t-\tau)}Bu(\tau)d\tau\right )\]
+\[\implies v^Tx(t)=e^{\lambda t}\lvert\lvert v\rvert\rvert+\int_0^te^{\lambda(t-\tau)}v^TBu(\tau)d\tau\]
+but $v^TB=0$ so it breaks the assumption that x goes to zero.\\
+$\implies v^Tx(t)\to\infty$ as $t\to\infty$.\\
+
+
+\section{Lyapunov test for stabilizability}
+$(A,B)$ are stabilizable iff $\exists$ p.d. W,Q such that:\\
+\[AW+A^TW-BB^T=-Q\]
+
+\end{document}

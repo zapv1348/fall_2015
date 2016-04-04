@@ -1,0 +1,107 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\author{Zachary Vogel}
+\title{Notes in Dynamics and Manuevering\\ ECEN 5008}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+\section{Cheat Sheet}
+To get a descent direction, try to minimize a quadratic model function.\\
+\[f:\mathbb{R}^n\to\mathbb{R}\]
+\[-\nabla f(x)=arg\min_z Df(x)z+\frac{1}{2}\lvert\lvert z\rvert\rvert^2\]
+linear plus quadratic minimization. Can do this many ways.\\
+when n is large, structure is important which is why it becomes better to solve the quadratic linear function instead of just taking the gradient.\\
+\[-H(x)^{-1}\nabla f(x)arg\min_z Df(x)*z+\frac{1}{2}D^2f(x)(z,z)\]
+where H is the hessian.
+\[=<\nabla f(x),z>+\frac{1}{2}<z,H(x)z>\]
+
+Top of cheat sheet we have:\\
+\[\zeta_k=arg\min_{\zeta\in T_{\xi_k}\mathfrak{T}}Dh(\xi_k)*\zeta+\frac{1}{2}D^2g(\xi_k)*(\zeta,\zeta)\]
+\[\min \int_0^Ta^T(\tau)z(\tau)+b^T(\tau)v(\tau)+\frac{1}{2}\begin{pmatrix}z(\tau)\\v(\tau)\end{pmatrix}^T\begin{bmatrix}Q_0(\tau)&S_0(\tau)\\S_0^T(\tau)&R_0(\tau)\end{bmatrix}\begin{pmatrix}z(\tau)\\v(\tau)\end{pmatrix}d\tau+\frac{1}{2}z^T(T)P_1z(T)+r^Tz(T)\]
+s.t. $\dot{z}=A(t)z+B(t)v, z(0)=0$.\\
+need the hessian to be positive definite for this to work. otherwise you might not get a single minimizer.\\
+we still need:\\
+\[R(t)=R^T(t)\geq r_0I>0\]
+because R has to be invertible, but:\\
+$Q(t)\geq 0$\\
+is way too strict for optimization!\\
+Call $\begin{bmatrix}Q(\tau)&S(\tau)\\S^T(\tau)&R(\tau)\end{bmatrix}=W(\tau)$. Then let:\\
+\[g*(\zeta,\zeta)=\int_0^\pi\zeta^T(\tau)W(\tau)\zeta(\tau)d\tau+z^T(T)P_1z(T), \zeta(\tau)=\begin{pmatrix}z(\tau)\\v(\tau)\end{pmatrix}\]
+and let:\\
+\[\mathcal{L}=\{\zeta=(z(\cdot),v(\cdot)):\dot{z}=A(t)z+B(t)v, z(0)=0\}\]
+THM: Suppose that $R(t)=R^T(t)\geq r_0I>0, \forall t\in[0,T]$. Then, $q$ is p.d. on $\mathcal{L} \leftrightarrow$ for the following Riccati equation has a bounded solution on $[0,T]$:\\
+\[\dot{P}+\tilde{A}(t)P+P\tilde{A}(t)-PB(t)R^{-1}(t)B^T(t)P+\tilde{Q}(t)=0, P(T)=P_1\]
+for:\\
+\[\tilde{A}=A-BR^{-1}S^T,\quad \tilde{Q}=Q-SR^{-1}S^T\]
+\\
+$L_2$ trajectory exploration:\\
+\[\min \int_0^T\frac{1}{2} \lvert\lvert x(\tau)-x_d(\tau)\rvert\rvert_Q^2+\frac{1}{2}\lvert\lvert u(\tau)-u_d(\tau)\rvert\rvert^2_Rd\tau+\frac{1}{2}\lvert\lvert x(T)-x_d(T)\rvert\rvert^2_{P_1}\]
+typical: $Q$ \& $R$ are diagnol:\\
+$R>0$ and $Q\geq 0$ but usually $Q>0$.\\
+FACT: in the LQ minimization problem,\\
+if $R(t)=R^T(t)\geq r_0I>0$ and $Q(t)=Q^T(t)\geq 0$, and $P_1=P_1^T\geq 0$, then there is a unique solution to the problem.\\
+
+Sketch of proof:\\
+consider $\min\frac{1}{2}\int_{t_0}^T\begin{pmatrix}z\\v\end{pmatrix}^T\begin{bmatrix}Q & 0\\0 & R\end{bmatrix}\begin{pmatrix}z\\v\end{pmatrix}d\tau+\frac{1}{2}z^T(T)P_1z(T)$\\
+such that $\dot{z}=Az+Bv,z(t)=z_0$\\
+the minimum value is then:\\
+\[V(z_0,t_0)=\frac{1}{2}z_0^TP(t_0)z_0\geq 0\]
+
+\section{break}
+\[h(\xi)\quad g(\xi)=h(\mathcal{P}(\xi))\]
+\[Dg(\xi)\zeta=Dh(\mathcal{P}(\xi))*D\mathcal{P}(\xi)\zeta\bigg|_{\xi\in\mathfrak{T},\zeta\in T_\xi\mathfrak{T}}=Dh(\xi)\zeta\]
+you don't want all the stuff in the middle of that equation you just want the end.\\
+\[D^2g(\xi)\cdot (\zeta,\zeta)=D^2h(\mathcal{P}(\xi))\cdot(D\mathcal{P}(\xi)\zeta,D\mathcal{P}(\xi)\zeta)+Dh(\mathcal{P}(\xi))D^2\mathcal{P}(\xi)(\zeta,\zeta)\]
+restriccted to $\xi\in\mathfrak{T}$ and $\zeta\in\mathfrak{T}T_{\xi}$ trajectory and tanget trajectory.\\
+\[=D^2h(\xi)(\zeta,\zeta)+Dh(\xi)D^2\mathcal{P}(\xi)(\zeta,\zeta)\]
+first part is associated with $\begin{pmatrix}Q&0\\0&R\end{pmatrix}$.\\
+Second part will be associated with $\begin{bmatrix}q^Tf_{xx} &q^Tf_{xu}\\q^Tf_{ux}&q^Tf_{uu}\end{bmatrix}$.\\
+$q^T$ means summation over the ks.\\
+\[(x(),u())=\mathcal{P}(\xi):=\dot{x}=f(x,u)\quad u=u(t)+K(t)(\alpha(t)-x) x(0)=x_0\quad \xi=(\alpha(\cdot),\mu(\cdot))\]
+\[(z(),v())=D\mathcal{P}(\xi)\zeta:=\dot{z}=A(t)z+B(t)v v=\nu(t)+K(t)(B(t)-z)\quad z(0)=0\quad \zeta=(\beta(\cdot),\nu(\cdot))\]
+\[(y(),w())=D^2\mathcal{P}(\xi)(\zeta,\zeta):= \dot{y}=A(t)y+B(t)w+D^2f(x(t),u(t))((z(t),v(t)),(z(t),v(t)))\quad y(0)=0\]
+\[w=-K(t)y\]
+
+\section{Q optimal}
+\[(Q_0)_{ij}=Q_{ij}+\sum_kg_k\frac{\partial f_k}{\partial x_i\partial x_j}\]
+
+
+\section{aside}
+might want:\\
+\[\min b^Tz+\frac{1}{2}z^TQz\]
+s.t. $A^Tz=0$.\\
+Let the columns of $Z$ span the null space of $A^T$. then look for $z=Zw$.\\
+problem becomes:\\
+\[\min b^TZw+\frac{1}{2}w^T Z^TQZw\]
+need $Z^TQZ>0$. You end up looking at matrices like:\\
+\[\begin{pmatrix}Q&A\\A^T&0\end{pmatrix}\]
+will need to analyze this.\\
+
+\section{book to torrent}
+anderson and moore on linear quadratic optimal control book.\\
+Linear quadratic regulator problems.\\
+the book title is "Optimal Control: Linear Quadratic Methods".\\
+Typical assumption:\\
+A,B, constant (or A(t), B(t))\\
+$R=R^T>0$\\
+$Q=Q^T\geq 0$\\
+can't guarantee these things.
+
+\section{checking real derivatives}
+$f(x)$ built $Df(x)$\\
+define $g(\epsilon)=f(x+\epsilon z)$ for $-1\leq \epsilon \leq 1$.\\
+Plot the components of $g(\epsilon)$\\
+\[Dg(\epsilon)=Df(x+\epsilon z)*z\]
+\[g'(\epsilon)=\frac{g(\epsilon+\delta)-g(\epsilon)}{\delta}\]
+if teh forward difference method and your $D$ are different, you did it wrong.\\
+
+\section{consider other things}
+consider haveing sliding car model at the end of the car, or a thrust vector at the end of the car instead of the hand of god control over $\omega$.\\
+
+\end{document}

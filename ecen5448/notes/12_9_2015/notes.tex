@@ -1,0 +1,119 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section*{Fundamental Theorem of Lin Alg Proof}
+Very non-trivial.\\
+row rank of $A_{m\times n}$=column rank A.\\
+Let $v_1,\dots,v_k$ be the independent rows of A that span the rowspace of $A$.\\
+\[A=\begin{bmatrix}A_1\\\vdots\\A_m\end{bmatrix}\]
+row rank(A)=k\\
+Let $u_i\in \mathbb{R}^n=Av_i^T$ for $i=1,\dots,k$.\\
+We show that $u_1,\dots,u_k$ are independent.\\
+Suppose that this isn't true, and prove by contradiction. $\implies \exists \alpha_1,\dots,\alpha_k$:\\
+\[\alpha_1u_1+\dots+\alpha_ku_k=0\]
+\[\leftrightarrow \alpha_1Av_1^T+\dots+\alpha_kAv_k^T=0\]
+this implies that:
+\[A(\alpha_1v_1^T+\dots+\alpha_kv_k^T)=0\]
+\[z=\alpha_1v_1^T+\dots+\alpha_kv_k^T\]
+this means that z is orthogonal to $A_i$ including $v_1,\dots,v_k$. IN particular, z is orthogonal to z, which implies $\lvert\lvert z\rvert\rvert^2=0\implies z=0$. Since, $v_1,\dots,v_k$ are linearly independent $\alpha_1=\dots=\alpha_k=0$ which means $u_i$s are linearly indepedent.\\
+So we have found k indepedent vectors that are in the column space that are independent. Therefore, the column rank is greater than or equal to the row rank.\\
+Repeat this argument for $u_i*A=v_i$, or use the same argument for A transpose. Then you get the other inequality.\\
+
+\section*{Controllability Comment}
+want to move from one point in space to another.\\
+$\exists u(t)$:
+\[-x(0)=\int_0^Te^{-A\tau}Bu(\tau)d\tau\]
+\[y=\int_0^Te^{-A\tau}Bu(\tau)d\tau \text{for some control} u(\tau)\]
+is equal to the range of the controllability matrix. So just find a vector that isn't in the range of the controllability matrix and then find a vector that isn't in that.\\
+
+\section*{Homework 10}
+\subsection*{Problem 1}
+\[\dot{x}=Ax+Bu\]
+\[A=\begin{pmatrix}0&1\\1&0\end{pmatrix}\]
+\[B=\begin{pmatrix}1\\1\end{pmatrix}\]
+\subsubsection*{(a)}
+Use the rank test to conclude that $(A,B)$ is not controllable.\\
+\[C=\begin{pmatrix}1&1\\1&1\end{pmatrix}\]
+It's rank is clearly 1.\\
+\subsubsection*{(b)}
+Use the PBH test to conclude that $(A,B)$ is stabilizable.
+\[\text{rank}(A-\lambda I B)=n\]
+for all $\lambda$ with $Re(\lambda)\geq 0$\\
+$\lambda_1=1$, $\lambda_2=-1$.\\
+\[\begin{pmatrix}-1&1&1\\1&-1&1\end{pmatrix}\]
+Note that: 
+\[det(\begin{pmatrix}-\lambda & 1\\1&1\end{pmatrix}=-\lambda-1\neq 0\]
+for $\lambda$ with Re$(\lambda)\geq 0$
+\subsubsection*{(c)}
+Find a T such that the transformation $z=Tx$ takes the system to triangular Controller Form.\\
+Want T such that $TAT^{-1}=\begin{pmatrix}A_c&A_{cu}\\0&A_u\end{pmatrix}$ and $TB=\begin{pmatrix}B_c\\0\end{pmatrix}$.
+\[T=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix},\quad T^{-1}=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}\]
+\[TAT^{-1}=\frac{1}{2}\begin{pmatrix}2&0\\0&-2\end{pmatrix}\]
+\[TB=\frac{1}{\sqrt{2}}\begin{pmatrix}2\\0\end{pmatrix}\]
+\subsubsection*{(d)}
+Find a stabilizing feedback in the transformed coordinates $u=-Gz$ for $z=Tx$.\\
+\[\dot{z}=\begin{pmatrix}1&0\\0&-1\end{pmatrix}z+\begin{pmatrix}\sqrt{2}\\0\end{pmatrix}u(t)\]
+\[u(t)=-\begin{pmatrix}-\sqrt{2}&0\end{pmatrix}z\]
+Thus, the system is:
+\[\dot{z}=\begin{pmatrix}-1&0\\0&-1\end{pmatrix}z\]
+\subsubsection*{(e)}
+Now express this in the original coordinates $u=-Kx$.\\
+\[u=(-\sqrt{2}\quad 0)z=(-\sqrt{2}\quad 0)Tx\]
+\[=(-sqrt{2}\quad 0)\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}x\]
+\[=(-1\quad -1)x\]
+checking this:
+\[Ax+Bu=\begin{pmatrix}0&1\\1&0\end{pmatrix}x+\begin{pmatrix}1\\1\end{pmatrix}(-1\quad -1)x\]
+\[=\begin{pmatrix}-1 & 0\\0&-1\end{pmatrix}x\]
+which is Hurwitz.
+
+\subsection*{Problem 2}
+Show that for any $A$, there exists a $\mu>0$ such that:
+\[-\mu I-A\]
+is a stability matrix.\\
+\[C_{A\mu}(\lambda)=\det(A_\mu-\lambda I)=\det (-A-\mu I-\lambda I)=\det(-A-(\mu+\lambda)I)=c_{-A}(\mu+\lambda)\]
+So if $\lambda_0$ is an eigenvalue of $-A-\mu I$ then, $C_{-A}(\mu+\lambda_0)=0$ i.e. $\mu+\lambda_0$ is an eigenvalue for $-A$. Thus, for large enough $\mu$, $\lambda_0<0$.\\
+Let $(\lambda_1,\dots,\lambda_n)$ be eigenvalues of $-A$.\\
+If $\mu>\lvert Re(\lambda_1)\rvert,\dots,\lvert Re(\lambda_n)\rvert$ then $\mu+\lambda_0=\lambda_i$ for some $\lambda_0=\lambda_i-\mu$\\
+\[\implies Re(\lambda_0)=Re(\lambda_i)-\mu<0\]
+because $\mu$ is bigger than the real part of $\lambda_1$.\\
+
+\subsection*{Problem 3}
+Use the PBH test to show that if $(A,B)$ is a controllable pair, then $(-\mu I-A, B)$ is a controllable pair.\\
+$(A,B)$ controllable $\leftrightarrow$ $(-A-\mu I, B)$ is controllable.
+\[\text{rank}(A-\lambda I\quad B)<n\]
+iff $c^T(A-\lambda I)=0\leftrightarrow c^TA=\lambda c^T$ $c^TB=0$\\
+Left eigenvectors of $A=$ left eigenvectors of $(-A-\mu I)$\\
+\[c^T(-A-\mu I)=-c^TA-\mu c^T=-\lambda c^T-\mu c^T=(-\lambda-\mu)c^T\]
+
+\subsection*{Problem 4}
+Consider the inverted pendulum model:
+\[\begin{pmatrix}\dot{x_1}\\\dot{x_2}\end{pmatrix}=\begin{pmatrix}x_2\\\sin(x_1)-(x_2+x_2\lvert x_2\rvert)\end{pmatrix}+\begin{pmatrix}0\\1\end{pmatrix}u(t)\]
+where $u(t)$ is the input torque. Linearize th dynamics around the equilibrium point $(0,0)$. Let $\dot{x}=Ax+bu$ be that linearization. For the linearized model, derive the equations for the minimum energy controller that derives the dynamics from $(0.2,0)$ to close neighborhood of $(0,0)$ in 1 second. In other words, derive the Riccati equation and the coresponding controller for the following optimal control problem:
+\[\min_{u_{[0,1]}}\left (\int_0^1 u^2(\tau)d\tau+10\lvert\lvert x(1)-(0,0)\rvert\rvert^2\right )\]
+subject to: $\dot{x}=Ax+bu$.\\
+
+\[\dot{x}=\begin{pmatrix}0&1\\1&-1\end{pmatrix}x+\begin{pmatrix}0\\1\end{pmatrix}u(t)\]
+\[Q(t)=0,\quad R(t)=1\]
+\[M=10I\]
+\[\min \int_0^! u^T Rud\tau+x^T(1)Mx(1)\]
+\[\dot{P}=PA+A^TP-PBR^{-1}B^TD,\quad P(1)=M\]
+\[=P\begin{pmatrix}0 & 1\\1 & -1\end{pmatrix}+\begin{pmatrix}0&1\\1&-1\end{pmatrix}P+P\begin{pmatrix}0&0\\0&1\end{pmatrix}P\]
+we get:
+\[V^O(x,t)=x^TP(t)x\]
+The optimizer would be the state feedback:
+\[u^0(t)=-K(t)x(t)=-R^{-1}B^TP(t)x(t)=\begin{pmatrix}0\\-1\end{pmatrix}P(t)x(t)\]
+
+\end{document}

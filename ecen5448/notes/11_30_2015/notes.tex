@@ -1,0 +1,111 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{Stabilizability}
+Lyapunov Test:\\
+$(A,B)$ is stabilizable iff $\exists$ p.d. W s.t.:
+\[AW+WA^T-BB^T=-Q\]
+for some p.d. $Q$ (that equation is *)\\
+
+$\dot{x}=Ax+Bu$ $u=-Kx$, is stable.\\
+How to get feedback $Kx$?\\
+Multiply * from left and right by $P=W^{-1}$, we get:
+\[PA+A^TP-PBB^TP=-PQP\]
+\[B^TP=2K\]
+\[\implies P(A-BK)+(A^T-K^TB^T)P=-PQP\]
+Therefore, $(A-BK)$ is Hurwitz (stable).\\
+
+Fact: Suppose:
+\[\begin{pmatrix}\dot{z}_1\\\dot{z}_2\end{pmatrix}=\begin{pmatrix}A_c & A_{cu}\\0&A_{u}\end{pmatrix}\begin{pmatrix}z_1\\z_2\end{pmatrix}+\begin{pmatrix}\tilde{B}_c\\0\end{pmatrix}u\]
+is the controllability transformation of $\dot{x}=Ax+Bu$. Then the system is stabilizable iff  $A_u$ is Hurwitz.\\
+
+PBH Test for Stabilizability:\\
+$(A,B)$ is stabilizable iff rank$(A-\lambda I, B)=n$ for $\forall \lambda$ with $Re(\lambda)>0$\\
+
+\section{Observability}
+Dual to Controllability, related to output.\\
+We say that $\dot{x}=Ax+Bu$, $y=Cx+Du$ is observable if $\forall x(0)\in\mathbb{R}^n$, ($\forall u$), $\exists T$ such that by observing $y(t)$ in $[0,T]$, $x(0)\in\mathbb{R}^n$ ccan be determined uniquely.\\
+Note that for arbitrary $u(t)$, $y(t)=Ce^{At}x(0)+\int_0^TCe^{A(t-\tau)}Bu(\tau)d\tau+Du(t)$ where the integral term is $\tilde{y}(t)$.\\
+Then, $(y-\tilde{y}(t))$ is the output for the unforced system $(u=0)$.\\
+Therefore, observability is a property of $(A,C)$ pair like controllability was a property of $(A,B)$ pair.\\
+\[\begin{pmatrix}y(0)\\y(h)\\\vdots\\y(Nh)\end{pmatrix}=\begin{pmatrix}Cx(0)\\Ce^{Ah}x(0)\\\vdots\\Ce^{NAh}x(0)\end{pmatrix}\]
+So this basically requires that all those $Ce^{Anh}$ are LI.\\
+Uniquely $x(0)\implies \notin \tilde{x}(0)=x(0)$:
+\[\tilde{y}=\begin{pmatrix}C\\Ce^{Ah}\\\vdots\\Ce^{NAh}\end{pmatrix}\tilde{x}\]
+\[\implies 0=\begin{pmatrix}C\\Ce^{Ah}\\\vdots\\Ce^{Nah}\end{pmatrix}x\]
+should have a unique solution $x=0$. Which holds iff the columns of that matrix are L.I.\\
+
+A system is observable iff the columns of $Ce^{At}$ are linearly independent over the interval $t\in [0,T]$.\\
+columns of $Ce^{At}$ are L.I. over $[0,T]$ iff:
+\[W_0(0,T)=\int_0^Te^{A^Tt}C^TCe^{At}dt\]
+is a positive definite matrix.\\
+Reminder: $x^TW_0(0,T)x=\int_0^Tx^Te^{A^Tt}C^TCe^{At}xdt=\int_0^T\lvert\lvert Ce^{At}x\rvert\rvert^2dt\geq 0$ iff the columns of $Ce^{At}$ are L.I.\\
+
+The matrix $W_0(0,T)$ is called the observability Gramian of $\dot{x}=Ax$ and $y=Cx$. Note that:\\
+\[W_c(0,T)=\int_0^Te{At}BB^Te^{A^Tt}dt\]
+Therefore, a system is observable iff $(A^T, C^T)$ is controllable.\\
+
+So $(A,C)$ is observable iff $(A^T,C^T)$ is controllable:\\
+or if the observability matrix:\\
+\[\begin{pmatrix}C\\CA\\\vdots\\CA^{n-1}\end{pmatrix}\]
+is full rank.\\
+or if rank$\begin{pmatrix}A-\lambda I\\C\end{pmatrix}=n\forall \lambda\in \mathbb{C}$.\\
+or the columns of $Ce^{At}$ are linearly independent for $t\in[0,T]$\\
+or if $W_O(0,T)$ is p.d. for all $T>0$.\\
+
+What is $x(0)$?\\
+\[y(t)=Ce^{At}x(0)\]
+\[\implies x(0)=W_O(0,T)^{-1}\int_0^Tc^Te^{A^Tt}y(t)dt\]
+
+Observability form:\\
+Similar to controllability, $\exists T; z=Tx$ results in:
+\[z=\begin{pmatrix}A_O&0\\A_u&A_{uO}\end{pmatrix}z\]
+\[y=\begin{pmatrix}c_1 &0\end{pmatrix}z\]
+where $A_O, C_1$ is an observable pair.\\
+Note that any initial condition $z_0=\begin{pmatrix}0\\u\end{pmatrix}$ where $u\in\mathbb{C}$ the output $y(t)=0\ \forall t\in\mathbb{R^+}$.\\
+
+Duality in controls defaults to mean the duality between controllability and observability. The dual to stabalizability is Detectability.
+
+\section{Detectability}
+The pair $(A,C)$ is called detectable if $A\pm HC$ is Hurwitz for some $n\times q$ matrix H.\\
+Model-Based Observer aka Luenberger Observer (deterministic version of Kallman filter).\\
+Original setting:
+\[\dot{x}=Ax+Bu\]
+\[y=Cx\]
+Observers reconstruct x from whatever you know.\\
+A mapping that maps $(u,y)$ to something is called an observer for linear system if:
+\[\lvert\lvert x(t)-\hat{x}(t)\rvert\rvert \to 0\]
+as $t\to\infty$.\\
+Model-Based Observer because you know the model:\\
+\[\dot{\hat{x}}=A\hat{x}+Bu+H(y-\hat{y})\]
+\[\hat{y}=C\hat{x}\]
+for some H.\\
+
+Suppose that $A-HC$ is Hurwitz.\\
+Let $e=x-\hat{x}$. Then,
+\[\dot{e}=Ax+Bu-A\hat{x}-Bu-H(y-\hat{y})\]
+\[=Ax-A\hat{x}-HCe\]
+\[\dot{e}=(A-Hc)e\]
+Therefore, $\hat{x}(t)\to x(t)$ exponentially fast
+
+\section{outside of topic}
+PBH test for controllability:
+$(A,B)$ controllable, iff rank$(A-\lambda I B)=n$ for $\forall \lambda$.\\
+Rank$(A-\lambda_1 I B)<n$ iff $\exists c$   $c^T(A-\lambda_1 I B)=0\implies c^TA=-\lambda c^T$,  $c^TB=0$\\
+$c^T(B AB \dots A^{n-1}B)=0$\\
+
+
+\end{document}

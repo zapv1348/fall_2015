@@ -1,0 +1,94 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\author{Zachary Vogel}
+\title{Notes in Dynamics and Manuevering\\ ECEN 5008}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+\section{explaining some of the diff eqs from paper}
+\[\min\int_0^T l(x(\tau),u(\tau),\tau)d\tau+m(x(T))\]
+such that $\dot{x}=f(x,u,t),x(0)=x_0$.\\
+$\min (f(x))$ Thm: $x*$ is a local min $\implies \nabla f(x*)=0$. First order necessary condition.\\
+assume these functions are differentiable.\\
+Pontryagin's maximum (or minimum) principle.\\
+Baby PMP THM:\\
+Suppose that $(\bar{x}(t),\bar{u}(t)), t\in[0,T]$ satisfies the dynnamics ($\dot{x}=f(x,u,t)$) and locally minimizes the cost ($\int_0^Tld\tau m$) (over trajectory).\\
+THM: there is an absolutely continuous curve $\bar{p}(t), t\in[0,T]$ such that:\\
+\[\dot{\bar{x}}(t)=H_p^T(\bar{x}(t),\bar{u}(t),\bar{p}(t),t),\ \bar{x}(0)=x_0\]
+\[\dot{\bar{p}}(t)=-H_x^T(\bar{x}(t),\bar{u}(t),\bar{p}(t),t),\ \bar{p}(t)=m_x^T(x(T))\]
+\[0=H_u^T(\bar{x}(t),\bar{u}(t),\bar{p}(t),t)\]
+where the control Hamiltonian is:
+\[H(x,u,p,t)=l(x,u,t)+p^Tf(x,u,t)\]
+Written more directly,\\
+\[\dot{\bar{x}}(t)=f(\bar{x}(t),\bar{u}(t),t)\ \bar{x}(0)=x_0\]
+\[\dot{\bar{p}}(t)=-A^T(\bar{x}(t),\bar{u}(t),t)\bar{p}(t)-l_x^T(\bar{x}(t),\bar{u}(t),t)\ \bar{p}(T)=m_x^T(x(T))\]
+\[0=B^T(\bar{x}(t),\bar{u}(t),t)\bar{p}(t)+l_u^T(\bar{x}(t),\bar{u}(t),t)\]
+two point boundary value problem (TPBVP)\\
+BVP 4c and BVP 5c solvers will do this, but need a good initial guess to use properl.\\
+need x to be linear and cost to be quadratic.\\
+
+\section{Linear Dynamics, Quadratic Cost}
+(LQ opt ctrl LQR)\\
+\[\min(\int_0^T\frac{1}{2}x^TQx+\frac{1}{2}u^TRu d\tau+\frac{1}{2}x(T)^TP_1x(T))\]
+\[Q=Q^T\geq 0\]
+\[R=R^T>0\]
+\[P_1=P_1^T\geq 0\]
+take to be constant, but they don't have to be.\\
+All of this such that:\\
+\[\dot{x}=A(t)x+B(t)u, x(0)=x_0\]
+\[H(x,u,p,t)=\frac{1}{2}x^TQx+\frac{1}{2}u^TRu+p^T(Ax+Bu)\]
+\[\dot{x}=H^T_p=Ax+Bu\]
+\[-\dot{p}=H_x^T=A^Tp+Qx\]
+\[0=H_u^T=B^Tp+Ru\implies u=-R^{-1}B^Tp\]
+\[\begin{bmatrix}\dot{x}\\\dot{p}\end{bmatrix}=\begin{bmatrix}A & -BR^{-1}B^T\\-Q&-A^T\end{bmatrix}\begin{bmatrix}x\\p\end{bmatrix}\]
+\[x(0)=x_0\]
+\[p(T)=P_1x(T)\]
+\[\begin{bmatrix}x(T)\\p(T)\end{bmatrix}=\begin{bmatrix}I\\P_1\end{bmatrix}x(T)\]
+\[p(T)=P_1x(T)\]
+maybe $p(t)=P(t)x(t)$(if we are lucky). Because of the sspecifications on definiteness of Q,R,P this is true here.\\
+He likes to call this the Ricatti Transformation.\\
+\[p=Px\]
+\[\dot{p}=\dot{P}x+P\dot{x}=\dot{P}x+P(Ax-BR^{-1}B^TPx)\]
+\[=-Qx-A^TPx\]
+\[0=(\dot{P}+A^TP+PA-PBR^{-1}B^TP+Q)x\]
+this is a ricotti equation.\\
+If $P(t), t\in[0,T]$ satisfies:\\
+\[\dot{P}+A^TP+PA-PBR^{-1}B^TP+Q=0\quad P(T)=P_1\]
+Then, $p(t)=P(t)x(t) \forall t\in[0,T]$.\\
+and $u=-R^{-1}B^TPx=-K(t)x$.\\
+so that the optimal trajectories one obtained using a linear feedback.\\
+\[\dot{x}=(A-Bk)x, x(0)=x_0\]
+\\
+\section{Minimize this optimization}
+\[\min\int_0^Ta^T(\tau)z(\tau)+b^T(\tau)v(\tau)+\frac{1}{2}\begin{bmatrix}z(\tau)\\v(\tau)\end{bmatrix}^T\begin{bmatrix}Q(\tau) & S(\tau)\\S^T(\tau) & R(\tau)\end{bmatrix}\begin{bmatrix}z(\tau)\\v(\tau)\end{bmatrix}d\tau+\frac{1}{2}z(T)^TP_1z(T)+r_1^Tz(T)\]
+\[\dot{z}=A(t)z+B(t)v, z(0)=0\]
+\[a(t)=l_x^T(t)\]
+\[b(t)=L_u^T(t)\]
+\[-\dot{r}==(A-BK_0)^Tr+a-K_0^Tb=A^Tr+a-K_0^T(B^Tr+b)\]
+For the cheat sheet, we are at a trajectory, compute some minimums to figure out what is going downhill.\\
+
+\section{Newton Method (Pronto):}
+start with initial trajectory: $\epsilon\in\mathfrak{T}$\\
+for $k=0,1,2,\dots$.\\
+redisign $k(t)$.\\
+descent direction:\\
+\[\zeta_k=\arg\min_{\zeta\in T_{\epsilon_k}\mathfrak{T}} Dh(\epsilon_k)\zeta+\frac{1}{2}D^2g(\epsilon_k)*(\zeta_1\zeta)\]
+or $\frac{1}{2}\lvert\lvert \zeta\rvert\rvert^2_{L2(\tilde{Q},\tilde{R}}$\\
+or $\frac{1}{2}D^2h(\epsilon_{12})(\zeta_1,\zeta)$.\\
+line search (Aruijo backtracking)
+\[\gamma_{12}=\arg\min_{\gamma\in[0,1]}h(\mathfrak{P}(\epsilon_k\gamma\zeta_k))\]
+update:\\
+\[\epsilon_{k+1}=\mathfrak{P}(\epsilon_k+\gamma_k\zeta_k)\]
+
+
+\[\int_x(\tau)z(\tau)+l_u(\tau)v(t)d\tau+m_x(x(T))*z(T)\]
+
+
+
+\end{document}

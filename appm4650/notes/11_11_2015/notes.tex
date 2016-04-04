@@ -1,0 +1,57 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+
+\author{Zachary Vogel}
+\date{\today}
+\title{Notes in APPM 4650\\Adam Norris}
+
+\maketitle
+
+\section{Project Continued}
+Cone of energy...\\
+\[\frac{d\theta}{d\sigma}=\delta e^{\theta}-\theta\]
+$\delta<\frac{1}{e}$ fizzle.\\
+$\delta>\frac{1}{e}$ explosion\\
+$\delta=\frac{1}{5}$ and $\delta=1$.\\
+for fizzle solutions your just going to integrate the ode with RK4. This should asymptote to $\theta_f$.\\
+Late solution for fizzle will be when $\theta_f=\delta e^{\theta_f}$.\\
+Early solution for fizzle will be from $\frac{d\theta}{d\sigma}=\delta+(\delta-1)\theta$.\\
+\[\frac{d\theta}{\delta+(\delta-1)\theta}=d\sigma\]
+\[\frac{d\theta}{\theta+(\frac{\delta}{\delta-1})}=(\delta-1)d\sigma\]
+\[\theta=\frac{\delta}{\delta-1}(e^{(\delta-1)\sigma}-1)\]
+This early solution works for both fizzle and explosion.\\
+for explosion, solving for $\sigma$ is uesful.\\
+\[\sigma=\left (\frac{1}{\delta-1}\right)\ln\left [\cfrac{\theta+\cfrac{\delta}{\delta-1}}{\cfrac{\delta}{\delta-1}}\right ]\]
+
+Late solution for the explosion:\\
+\[\frac{dy}{dx}=\frac{1}{\delta e^{x}-x}\]
+$y=\sigma$, $x=\theta$.\\
+\[r=\cfrac{\ln\left (\cfrac{\theta+\cfrac{\delta}{\delta-1}}{\cfrac{\delta}{\delta-1}}\right)}{\delta-1}\]
+\[\lim_{\delta\to 1}\sigma=\]
+should give ou sigma vs theta at the beginning..\\
+
+on explosion:\\
+\[\frac{d\theta}{d\sigma}\approx \delta e^{\theta}\]
+\[e^{-\theta}d\theta=\delta d\sigma\]
+\[-e^{-\theta}=\sigma\delta+c\]
+\[\theta\bigg|_{\sigma\to\sigma_{expl}}\to\infty\]
+\[c=-\delta \sigma_{expl}\]
+\[\sigma \delta=\delta\sigma_{expl}-e^{-\theta}\]
+\[\sigma=\sigma_{expl}-\frac{1}{\delta}e^{-\theta}\]
+late explosion approximation.\\
+$\sigma_{expl}$ is unkown though.\\
+\[\frac{d\sigma}{d\theta}=\frac{1}{\delta e^{\theta}-\theta}\]
+\[\int_{\theta=0}^\infty\frac{d\sigma}{d\theta}d\theta=\int_{\theta=0}^\infty\frac{d\theta}{\delta e^{\theta}-\theta}\]
+\[0=\theta_{expl}-\sigma\bigg|_{\theta=0}\]
+\[\theta_{expl}=int_{\theta=0}^\infty \frac{d\theta}{\delta e^{\theta}-\theta}\]
+Simpson's something for solution.\\
+by the time $\theta$ is about 10 your good.\\jacobian
+
+
+\end{document}

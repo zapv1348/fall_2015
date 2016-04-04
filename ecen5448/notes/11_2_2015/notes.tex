@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{input output stability}
+Input Output Characteristics\\
+norm of a linear system is:\\
+\[\lvert\lvert h\rvert\rvert=\sup_{u\neq 0,\lvert\lvert u\rvert\rvert<\infty}\frac{\lvert\lvert Hu\rvert\rvert}{\lvert\lvert u\rvert\rvert}\]
+for a given functional norm.\\
+Definition: For $u:\mathbb{R}^+\to\mathbb{R}^n$:
+\[\lvert\lvert u\rvert\rvert_{\infty}:=\sup_t\lvert\lvert u(t)\rvert\rvert_{\infty}\]
+vector $\lvert\lvert\cdot\rvert\rvert_{\infty}$\\
+Let $\mathscr{H}$$y(t)=\int_0^{\infty}H(t-\tau)u(\tau)d\tau$ for an integrable $H:\mathbb{R}\to\mathbb{R}$.\\
+The goal is to study input-output norm of this system for functional norm being the infinity norm defined above.\\
+Claim: For this system $\gamma=\lvert\lvert \mathscr{H}\rvert\rvert_{\text{ind.}}=\int_0^\infty \lvert H(t)\rvert d\tau$.\\
+IN particular if $\mathscr{H}$ is a BIBO system if that integral is bounded.\\
+
+Proof: For a given t, and u(t) with $\lvert\lvert u(t)\rvert\rvert_{\infty}<\infty$
+\[\lvert y(t)\rvert=\lvert\int_0^\infty H(t-\tau)u(\tau)d\tau\rvert\leq \int_0^\infty \lvert H(t-\tau)\rvert\lvert u(\tau)\rvert \tau\leq\lvert\lvert u\rvert\rvert_{\infty}\int_0^\infty \lvert H(t-\tau)\rvert d\tau =\lvert\lvert u\rvert\rvert\int_0^\infty \lvert H(\tau)\rvert d\tau\]
+\[\implies \lvert\lvert y\rvert\rvert \leq \gamma\lvert\lvert u\rvert\rvert_{\infty}\implies \frac{\lvert\lvert y\rvert\rvert_{\infty}}{\lvert\lvert u\rvert\rvert_{\infty}}\leq\gamma\]
+\[\implies \sup_{\lvert\lvert u\rvert\rvert\leq \infty,u\neq 0}\frac{\lvert\lvert H u\rvert\rvert_{\infty}}{\lvert\lvert u\rvert\rvert_{\infty}}\leq \gamma\]
+To show that $\sup_{\text{same}}\frac{\text{same}}{\text{same}}\leq \gamma$,\\
+Let:\\
+\[u(\tau)_T=\{\begin{array}{ll}\text{sign}(H(T-\tau)) & \text{for} \tau\in[0,\tau]\\0 & \text{else}\end{array}.\]
+For $u_T$ defined this way:\\
+\[y(T)=\int_0^\infty H(T-\tau)u(\tau)d\tau=\int_0^T H(T-\tau)sgn(T-\tau)d\tau\]
+\[=\int_0^T\lvert H(\tau)\rvert d\tau\]
+For these $u_T$, \\
+\[\lvert\lvert y\rvert\rvert_{\infty} \geq \lvert y(T)\rvert =\int_0^T\lvert H(\tau)\rvert d\tau\lvert\lvert u_T\rvert\rvert_{\infty}\]
+\[\implies \lvert\lvert \mathscr{H}\rvert\rvert_{\text{ind.}}\geq \int_0^T \lvert H(\tau)\rvert d\tau\]
+for any T. Thus,
+\[\implies \lvert\lvert \mathscr{H}\rvert\rvert_{\text{ind.}}\geq \gamma\]
+
+Implication: The linear system $\mathscr{H}$ is BIBO stable iff $\int_0^\infty \lvert H(\tau)\rvert d\tau < \infty$.\\
+
+\section{MIMO BIBO STAB}
+LEt's look at the same thing for multi input output systems.\\
+\[u:\mathbb{R}^+\to\mathbb{R}^m, H:\mathbb{R}\to \mathbb{R}^{p\times m}\]
+then we get that:\\
+\[\lvert\lvert \mathscr{H}\rvert\rvert_{\text{ind.}}=\lvert\lvert \mathscr{M}\rvert\rvert\]
+
+\[\mathscr{M}=\begin{pmatrix}\lvert\lvert H_{11}\rvert\rvert_{\text{ind.}} & \lvert\lvert H_{12}\rvert\rvert_{\text{ind.}} \dots \lvert\lvert H_{1m}\rvert\rvert_{\text{ind.}}\\ \dots & \dots & \dots &\dots\\ \lvert\lvert H_{p1}\rvert\rvert_{\text{ind.}} &\dots &\dots &\lvert\lvert H_{pm}\rvert\rvert_{\text{ind.}}\end{pmatrix}\]
+Note that $H_{ij}(t)$ is the transfer function from jth input to the i'th output and $\lvert\lvert H_{ij}\rvert\rvert_{\text{ind.}}$ is the $\lvert\lvert \cdot\rvert\rvert_{\text{ind.},\infty}$ of this SISO system.\\
+
+\section{Relationship between state space Stability and INput Output STability(BIBO)}
+\[\dot{x}=Ax+Bu\]
+\[y=Cx+Du\]
+\[x(0)=0\]
+\[y(t)=\int_0^t C*e^{A(t-\tau)}Bu(\tau)d\tau +Du(t)\]
+D doesn't have any real impact on io stab so we just assume it is zero.\\
+For convenience let $D=0$.\\
+Claim: If the system is exponentially stable, then it is BIBO Stable regardless of which norm you use.\\
+PROOF:\\
+\[\lvert\lvert y(t)\rvert\rvert_\infty=\lvert\lvert \int_0^t Ce^{A(t-\tau)}Bu(\tau)d\tau\rvert\rvert_{\infty}\]
+\[\leq \int_0^t\lvert\lvert Ce^{A(t-\tau)}Bu(\tau)\rvert\rvert d\tau\leq \int_0^t\lvert\lvert Ce^{A(t-\tau)}B\rvert\rvert_{\text{ind.}}\lvert\lvert u(\tau)\rvert\rvert_\infty d\tau\]
+\[\leq \int_0^t \lvert\lvert Ce^{A(t-\tau)}B\rvert\rvert_{\text{ind.}}d\tau \lvert\lvert u\rvert\rvert_{\text{ind.}\infty}\]
+\[\leq \lvert\lvert C\rvert\rvert_{\text{ind.}}\lvert\lvert B\rvert\rvert_{\text{ind.}}\int_0^t\lvert\lvert e^{A(t-\tau)}\rvert\rvert d\tau\leq \lvert\lvert u\rvert\rvert_{\text{ind.}}\lvert\lvert C\rvert\rvert_{\text{ind.}}\lvert\lvert B\rvert\rvert_{\text{ind.}}m\int_0^t e^{-\lambda_0(t-\tau)}d\tau\]
+where $\lambda_0\geq 0\implies$ the system is BIBO.\\
+
+\section{Euclidian norm of functions}
+Let $\lvert\lvert u\rvert\rvert_2:= (\int\lvert\lvert u(t)\rvert\rvert^2dt)^{\frac{1}{2}}$.\\
+This is also known as the L2 norm of $u(t)$
+This is a generalization of Euclidian norm to functions.\\
+Goal:Characterize the L2 gain of a linear system: $y(t)=\int_0^\infty H(t-\tau)u(\tau)d\tau$.\\
+Claim: $\lvert\lvert \mathscr{H}\rvert\rvert_{\text{ind.},2}=\sup_{\omega\in\mathbb{R}}\lvert\lvert H(j\omega)\rvert\rvert_{\text{ind.},2}=\gamma$.\\
+where $H(j\omega)=\mathfrak{L}(H(t))\bigg|_{s=j\omega}$.\\
+\[u(t)=\sin(\alpha t^2)=\sin((\alpha t=f)t)\]
+to test in real world.\\
+
+Proof: Parsevals:\\
+ \[\lvert\lvert y\rvert\rvert_2^2=\int_0^\infty y^T(t)y(t)dt=\frac{1}{2\pi}\int_{-\infty}^\infty Y(j\omega)^HY(j\omega)d\omega\]
+\[=\frac{1}{2\pi}\int_{-\infty}^\infty U^H(j\omega)H^H(j\omega)H(j\omega)U(j\omega)d\omega=\frac{1}{2\pi}\int_{-\infty}^\infty \lvert\lvert H(j\omega)U(j\omega)\rvert\rvert_2^2d\omega\leq \frac{1}{2\pi}\int_{-\infty}^\infty \lvert\lvert H(j\omega)\rvert\rvert_{\text{ind.},2}^2\lvert\lvert U(j\omega)\rvert\rvert^2d\omega\]
+\[\leq \frac{1}{2\pi}\gamma^2\int_{-\infty}^\infty \lvert\lvert U(j\omega)\rvert\rvert_2^2d\omega\]
+\[=\gamma^2\lvert\lvert u\rvert\rvert_2^2\]
+design a u that exites the system. Some chain of exponentially decaying sinusoids to get H.\\
+\end{document}

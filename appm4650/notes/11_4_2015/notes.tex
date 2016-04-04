@@ -1,0 +1,50 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+
+\begin{document}
+
+\author{Zachary Vogel}
+\date{\today}
+\title{Notes in APPM 4650\\Adam Norris}
+
+\maketitle
+
+
+
+\section{Throwing out Terms}
+\[y'=y+x\]
+\[y(0)=0\]
+assume $y$ is the smallest.\\
+\[y'\approx x\]
+\[y\approx \frac{x^2}{2}+c\]
+$c=0$ by init condition\\
+
+
+Now assume x is the smallest.\\
+\[y'=y\]
+\[y\approx ce^x\]
+$c=0$ to satisy ic.\\
+breaks assumption.\\
+tested others, but the only one that works is y is smallest.\\
+
+you can take the $y=\frac{x^2}{2!}$ term and plug it into $y'$ to evaluate.\\
+repeat this over and over and you will get $y=e^x-x-1$.\\
+
+\section{Projects}
+rate of reaction $e^{\frac{-E}{RT}}$ proportional to the number of molecules with sufficient energy to react.\\
+RT $\sim$ measure of thermal energy level of room.\\
+E activation energy for $F+0x$ reaction!.\\
+\[\frac{PV}{h}=RT\]
+$A_f\sim$ amount of fuel in box.\\
+\[\frac{dA_f}{dt}=-cA_fe^{\frac{-E}{RT}}\]
+Conservation of energy.\\
+\[\frac{d}{dt}(\text{thermal energy in box})=\dot{Q}_{\text{all}}\]
+fuel reaction.\\
+\[\Delta E=Q+(W=0)\]
+\[\rho c_p\frac{dT}{dt}=-c\frac{dA_f}{dt}\]
+
+
+\end{document}

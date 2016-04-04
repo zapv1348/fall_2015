@@ -1,0 +1,57 @@
+\documentclass[a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+
+
+\author{Bengt Fornberg}
+\title{Determining Human Directionality with LIDAR\\ APPM 4380   Zachary Vogel}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\section{Topic and Motivation}
+A few weeks before the final project for the class was announced, my roommate and I where discussing an idea for a company that worked on virtual reality. The basic idea was to have several LIDAR sensors around a room tracking a persons movement.
+An algorithm would then determine the direction a person in the room was facing then use the LIDAR sensors to directly project an image into a persons eye with the techonology known as a Retinal Projection.
+We felt this would be great because it wouldn't require any fancy headsets, and you would not have to worry about projecting things into free space which has proven to be difficult to say the least.
+The goal of this project would be to make a model of a human body. This body would then be randomly generated into a 3-D room and moved around at speeds a human would be capable of.
+Then a simulation would be run to determine if the sensors can find the direction the person is facing.
+Obviously, there are some flaws with the idea behind the business, but the general project idea is pretty cool and has several relatively intense modeling aspects.
+
+\section{Background}
+The word LIDAR is literally the combination of the words light and radar.
+It is a technology often used to image various objects like roads, buildings, and landscapes by shining a light at a target and then measuring how much of the light reflects back.  
+Depending on the application, different wavelengths and different scattering types are used.
+The main problem with this technology currently is that the sensors only work in one direction, and are literally spun with a motor to generate the images used for self driving cars and the like.
+This can also be addressed by putting more sensors on the device, but that comes with increased cost.
+Recently, researchers have found a way to change the direction of the LIDAR sensor completely electronically.
+This company probably would not be implemented for another 20 years, so I will be assuming the sensors work this way.
+\\
+\\
+Of course, the other topic in this project is modeling the human body. I have no knowledge of this, and will need to spend a lot of time researching the topic and implementing different models to see what works.
+I'm assuming I'll start with something similar like stick figures with noses and hands and look for the hands and noses.
+Again, not really sure what this will look like and would love some feedback or information on places to start.
+I also thought I could get some 3-D data of a human body and possibly use that.
+\\
+\\
+If I'm struggling a lot I can always fall back on facial recognition as a modeling project.
+That is a good portion of what this project is, but I also want to spend a lot of time investigating how the orientation of the body can be used for this technology as well as analyzing image construction with different parts of theLIDAR data.
+For instance, if I just look at the lower body, what does that tell me about the direction of the head and is that even worth looking at.
+The project is pretty abitious, combining the imaging of LIDARs with human body modeling and image processing.
+If I can make good progress on these things seperately I will feel I've done good, but combining them into one thing is the end goal.
+\clearpage
+\section{Strategy/Plan}
+My general outline of a plan and/or strategy looks something like this:
+\begin{enumerate}
+\item Get idea checked off and approved
+\item Do research to see what stuff like this has been done before
+\item Research and work on a model for the human body
+\item Research and work on a model for imaging with LIDAR sensors
+\item Research Facial Recognition and other techniques for determining the direction a person is facing
+\item Do some basic facial recognition (determine whether or not something is a face, which way it is looking)
+\item Simulate Imaging of the human body
+\end{enumerate}
+\end{document}

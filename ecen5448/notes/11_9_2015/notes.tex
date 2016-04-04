@@ -1,0 +1,95 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\author{Zahary Vogel}
+\date{\today}
+\title{Notes in ECEN 5448}
+
+\begin{document}
+\maketitle
+
+
+\section{Controllability}
+Controllability: $\forall x_0,x\in\mathbb{R}^n$.\\
+$\exists \{T, u:[0,T]\to\mathbb{R}^m,$ for:\\
+\[\dot{x}=f(x,u), t\in[0,T]\]
+\[x(0)=x_0, x(T)=x\]
+For LTI systems, it suffice to verify controllability condition for any initial condition $x_0\in\mathbb{R}^n$ and $x_1=0$.(why?)\\
+
+Question: Under what condition for any $x(0)\in\mathbb{R}^n$, $\exists T,u:[0,T]\to \mathbb{R}^m$,\\
+\[0=e^{AT}x(0)+\int_0^Te^{A(T-\tau)}Bu(\tau)d\tau\]
+
+What causes non-controllable systems?\\
+\[\dot{x}=\begin{pmatrix}1 & 0\\0 & 1\end{pmatrix}x+\begin{pmatrix}0\\1\end{pmatrix}u(t)\]
+no way to change the first coordinate.\\
+
+Let us determine the necessary condition for controllability.\\
+Suppose $x(0)\in\mathbb{R}^n$ is such that:
+\[0=e^{AT}x(0)+\int_0^Te^{A(T-\tau)}Bu(\tau)d\tau\]
+for some $T>0$ and $u:[0,T]\to\mathbb{R}$ (B is nx1)\\
+This implies that:\\
+\[-x(0)=\int_0^Te^{-A\tau}Bu(\tau)d\tau=\int_0^T\begin{pmatrix}f_1(\tau)\\f_2(\tau)\\\vdots\\f_n(\tau)\end{pmatrix}u(\tau)d\tau\]
+where $f_1(\tau)=[e^{-A\tau}B]$\\
+$\approx$ by discretization of $[0,T]$ to $h,2h,3h,\dots,Nh$. This integral would bee close to:\\
+\[\approx h\begin{pmatrix}f_1(h)u(h)+f_1(2h)u(2h)+\dots f_1(nh)u(nh)\\\vdots\\f_n(h)u(h)+f_n(2h)u(2h)+\dots+f_n(Nh)u(Nh)\end{pmatrix}\]
+So controllability is related to solving $y=Mu$. for a given vector y and matrix $M_{n\times N}$ N>>n.\\
+
+Fact: $y=Mu$ has a solution for all $y\in\mathbb{R}^n$ if and only if the rows of M are linearly independent.\\
+Proof: Suppose the row vectors, $M_1,M_2,\dots,M_n$ are linearly dependent, and non-negative $c_1,c_2,\dots,c_n\in\mathbb{R}\neq 0$ such that $c_1M_1+c_2M_2+\dots+c_nM_n=0=c^TM=0$.
+Let $y=c$ and suppose that $\exists u: c=Mu$. Multiply everything by $c^T$, then:
+\[c^Tc=\lvert\lvert c\rvert\rvert^2=c^TMu=0\]
+that's a contradiction because c has to have some positive element.\\
+Suppose that $M_1,M_2,\dots,M_n$ are linearly independent.\\
+IN this case, the matrix $P=MM^T$ is a p.d. matrix because for any $x\in\mathbb{R}^n$, $x^TPx=x^TMM^Tx=\lvert\lvert M^Tx\rvert\rvert^2>0$ for $x\neq 0$\\
+For solving $y=Au$, let:\\
+\[u=A^T(AA^T)^{-1}y\]
+\[Au=(Aa^T)(AA^T)^{-1}y=y\]
+
+Definition: We say that $g_1,\dots,g_n:[0,T]\to\mathbb{R}$ are linearly independent if:
+\[c_1g_1(t)+c_2g_2(t)+\dots+c_ng_n(t)=O(t)\]
+$\forall t\in[0,T]$ implies that $c_1=c_2=c_n=0$.\\
+
+Example: Let $g_1=1,g_2=t,g_3=t^2$.\\
+Suppose $c_1+c_2t+c_3t^2=0(t) \forall t\in[0,T]$.\\
+
+
+We want to solve:\\
+\[-x(0)=\int_0^T\begin{pmatrix}f_1(z)\\\dots\\f_n(z)\end{pmatrix}u(\tau)d\tau\]
+This has a solution $u(\tau)\forall x(0)\in\mathbb{R}^n$ iff $f_1(\tau),\dots,f_n(\tau)$ are linearly independent.\\
+Proof:Suppose $f_1,\dots,f_n$ are not independent$\implies \exists c_1,c_2,\dots,c_n: c_1f_1(t)+\dots+c_nf_n(t)=0\forall t\in[0,T]$.
+Let $x(0)=c$ and suppose $\exists u:[0,T]$\\
+\[c=\int_0^T\begin{pmatrix}f_1(\tau)\\\vdots\\f_n(\tau)\end{pmatrix}u(\tau)d\tau\]
+multiply by $c^T$:
+\[\lvert\lvert c\rvert\rvert^2=-\int_0^Tc^T\begin{pmatrix}f_1(\tau)\\\vdots\\f_n(\tau)\end{pmatrix}u(\tau)d\tau=0\]
+$\implies c=0$.\\
+
+Suppose that $f_1,\dots,f_n$ are independent. Let:
+\[M=\int_0^TF(\tau)F^T(\tau)d\tau\]
+where $F(\tau)=\begin{pmatrix}f_1(\tau)&\dots&f_n(\tau)\end{pmatrix}^T$. Again $W$ is a pd matrix when $f_1's$ are continuous.\\
+\[x^TWx=\int_0^Tx^TF(\tau)F^T(\tau)xd\tau=\int_0^T\lvert\lvert F(\tau)x\rvert\rvert^2d\tau>0\]
+Let $u(\tau)=-F^T(\tau)W^{-1}(0,T)x(0)$.\\
+\[\implies \int_0^Tf(\tau)u(\tau)d\tau=-\int_0^TF^T(\tau)F(\tau)W^{-1}[0,T]x(0)d\tau\]
+\[=-\int_0^TF^T(\tau)F(\tau)d\tau W^{-1}[0,T]x(0)=-x(0)\]
+So the system:\\
+\[\dot{x}=Ax+Bu\]
+is controllable iff:
+\[W[0,T]=\int_0^Te^{-A\tau}BB^Te^{-A^T\tau}d\tau\]
+is invertible for some $T>0$.\\
+corollary that this does not depend on what $T$ you pick for this.\\
+
+$W[0,T]$ is the controllability Gramian.
+
+An implication of the previous result, is that the time interval is not dependent on $x_0$. Thus, the T is global, but also the T doesn't matter.\\
+
+\section{Controllability rank test}
+\[\dot{x}=Ax+Bu\]
+is controllabe iff $\begin{bmatrix}B & AB &\dots &A^{n-1}B\end{bmatrix}$ is full rank. This also again tells us that the time $T$ is irrelevant.\\
+
+
+We will continue to this test and observability next time.
+\end{document}
